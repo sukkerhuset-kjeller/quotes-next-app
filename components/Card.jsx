@@ -14,7 +14,7 @@ const Card = ({ text, said_by, date }) => {
         .card {
           margin-top: -80px;
           padding: calc(2rem + 80px) 3rem 2rem 3rem;
-          color: white;
+          color: #ffffff;
           border-radius: 0 0 0 80px;
         }
         .card:nth-child(3n + 1) {

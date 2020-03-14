@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { subDays, subHours } from "date-fns";
+import Header from "../components/Header";
 import CardList from "../components/CardList";
 
 const cards = [
@@ -36,6 +37,7 @@ const Home = () => {
         <title>Sukkerhuset sitater</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header></Header>
       <CardList data={cards} />
       <style jsx>{`
         .container {
