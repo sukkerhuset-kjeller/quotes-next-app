@@ -1,0 +1,31 @@
+type Query {
+    getQuote(id: ID!): Quote
+    getQuotes(amount: Int!, page: Int!): [Quote]
+    getPerson(id: ID!): Person
+    getPersons: [Person]
+}
+
+type Mutation {
+    addQuote(input: QuoteInput!): Quote
+}
+
+type Quote {
+    id: ID!
+    text: String!
+    date: String!
+    votes: Int!
+    said_by: Person
+    tags: [Person]
+}
+
+type Person {
+    id: ID!
+    name: String!
+}
+
+input QuoteInput {
+    text: String!
+    said_by: ID!
+    date: String
+    tags: [ID]
+}

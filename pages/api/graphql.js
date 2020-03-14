@@ -1,17 +1,9 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import Cors from 'micro-cors';
+import td from '../../data/api.gql';
+import api from '../../data';
 
-const typeDefs = gql`
-    type Query {
-        hello: String!
-    }
-`;
-
-const resolvers = {
-    Query: {
-        hello: (_parent, _args, _context) => 'hello',
-    },
-};
+const typeDefs = gql(td);
 
 const cors = Cors({
     allowMethods: [
@@ -20,6 +12,8 @@ const cors = Cors({
         'OPTIONS'
     ],
 });
+
+const resolvers = api();
 
 const apolloServer = new ApolloServer({
     typeDefs,
