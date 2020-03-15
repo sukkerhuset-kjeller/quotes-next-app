@@ -4,10 +4,6 @@ import { getPerson, getPersons } from './Person';
 
 // TODO: heartQuote, getQuotesWithSort
 
-const sortQuotes = () => {
-
-};
-
 export default class Quote {
     constructor({ _id, text, date, votes, said_by, tags}) {
         this.id = _id;
@@ -112,25 +108,3 @@ export const upVote = id => new Promise((resolve, reject) => {
         resolve();
     }).catch(reject);
 });
-
-/*function (quote, person) {
-    return new Promise(function(resolve, reject) {
-        db.collection('quotes').find({text: {$text: quote}}).toArray().then(function (arr){
-            var result = [];
-            var promises = [];
-            for (var i = 0; i < arr.length; i++) {
-                promises.push(db.collection('persons').find({_id: arr[i].said_by, name: {$text: person}}).toArray());
-            }
-            Promise.all(promises).then(function (res) {
-                if (res) {
-                    for (var i = 0; i < res.length; i++) {
-                        if (res[i].length > 0) {
-                            result.push(arr[i]);
-                        }
-                    }
-                }
-                resolve(result);
-            }).catch(reject);
-        }).catch(reject);
-    });
-}*/

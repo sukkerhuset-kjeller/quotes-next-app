@@ -13,7 +13,7 @@ export default () => {
             addQuote: (parent, { input }) => addQuote(input.text, input.date, input.said_by, input.tags),
         },
         Quote: {
-            said_by: (parent, b, c, d, e, f) => getPerson(parent.said_by),
+            said_by: parent => getPerson(parent.said_by),
             tags: parent => Promise.all(parent.tags.map(person => getPerson(person))),
         },
     };
