@@ -72,7 +72,7 @@ const AddModal = ({ show, setShow }) => {
           onChange={e => setQuote(e.target.value)}
         />
         <Select
-          instanceId="test"
+          instanceId="said_by"
           placeholder="Sagt av"
           isClearable={true}
           isSearchable={true}
