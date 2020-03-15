@@ -4,10 +4,10 @@ import { getPerson, getPersons, addPerson } from './Person';
 export default () => {
     return {
         Query: {
-            getQuote: (parent, { id }) => getQuote(id),
-            getQuotes: (parent, { amount, page }) => getQuotes(amount, page),
-            getPerson: (parent, { id }) => getPerson(id),
-            getPersons: parent => getPersons(),
+            quote: (parent, { id }) => getQuote(id),
+            quotes: (parent, { input, sort, amount, page }) => getQuotes(input, sort, amount, page),
+            person: (parent, { id }) => getPerson(id),
+            persons: (parent, { name }) => getPersons(name),
         },
         Mutation: {
             addQuote: (parent, { input }) => addQuote(input.text, input.date, input.said_by, input.tags),

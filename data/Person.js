@@ -30,11 +30,22 @@ export const getPerson = (id) => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
-export const getPersons = () => new Promise((resolve, reject) => {
+export const getPersons = name => new Promise((resolve, reject) => {
     getDB().then(db => {
         const collection = db.collection('persons');
-        const cursor = collection.find({});
-        cursor.toArray().then(result => {
+        const query = {};
+        if (name?.length > 0) {
+            query.$or = name.split(' ').map(w => ({
+                name: {
+                    $regex: '.*' + w + '.*',
+                    $options: 'i',
+                },
+            }));
+        }
+        if (!query.$or) {
+            delete query.$or;
+        }
+        collection.find(query).toArray().then(result => {
             resolve(result.map(person => new Person(person)));
         }).catch(reject);
     }).catch(reject);

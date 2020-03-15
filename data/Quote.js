@@ -1,8 +1,8 @@
 import { ObjectID } from 'mongodb';
 import { getDB } from './db';
-import { getPerson } from './Person';
+import { getPerson, getPersons } from './Person';
 
-// TODO: search by person for quote (said_by), search for quotes containing string, heartQuote, getQuotesWithSort
+// TODO: heartQuote, getQuotesWithSort
 
 export default class Quote {
     constructor({ _id, text, date, votes, said_by, tags}) {
@@ -32,16 +32,51 @@ export const getQuote = id => new Promise((resolve, reject) => {
     }).catch(console.error);
 });
 
-export const getQuotes = (amount, page) => new Promise((resolve, reject) => {
+export const getQuotes = (input, sort, amount, page) => new Promise((resolve, reject) => {
     getDB().then(db => {
         const collection = db.collection('quotes');
-        collection.find({}).skip(amount * page).limit(amount).toArray().then(result => {
-            resolve(result.map(qt => new Quote(qt)));
+        const query = {};
+        if (input?.quote?.length > 0) {
+            query.$or = input.quote.split(' ').map(w => ({
+                text: {
+                    $regex: '.*' + w + '.*',
+                    $options: 'i',
+                },
+            }));
+        }
+        if (!query.$or) {
+            delete query.$or;
+        }
+        collection.find(query).skip(amount * page).limit(amount).toArray().then(result => {
+            if (sort) {
+                result.sort((a, b) => {
+                    if (sort.field == 'date') {
+                        if (sort.ascending) {
+                            return Number(a.date) - Number(b.date);
+                        }
+                        else {
+                            return Number(b.date) - Number(a.date);
+                        }
+                    }
+                });
+            }
+            if (input?.person?.length > 0) {
+                getPersons(input.person).then(persons => {
+                    result = result.filter(q => persons.filter(p => q.said_by == p.id || q.tags.indexOf(q.id) != -1).length > 0);
+                    resolve(result.map(qt => new Quote(qt)));
+                }).catch(reject);
+            }
+            else {
+                resolve(result.map(qt => new Quote(qt)));
+            }
         }).catch(reject);
     }).catch(reject);
 });
 
 export const addQuote = (text, date, said_by, tags) => new Promise((resolve, reject) => {
+    if (isNaN(Number(date))) {
+        return reject('Date invalid, string with number of milliseconds since 1970');
+    }
     getDB().then(db => {
         const persons = [said_by];
         if (tags) {
