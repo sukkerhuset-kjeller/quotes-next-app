@@ -1,5 +1,17 @@
 # Sukkerhuset Quotes
+
+This is an app created to collect quotes at Sukkerhuset Kjeller. It is built using Next.js and GraphQL.
+
 ## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn
+```
+
 First, run the development server:
 
 ```bash
@@ -11,9 +23,11 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## API
+
 The GraphQL API is available at `/api/graphql?query`
 
 ### Examples
+
 1. [Fetch all persons](#fetch-all-persons)
 2. [Search for person](#search-for-person)
 3. [Fetch quotes](#fetch-quotes)
@@ -21,6 +35,7 @@ The GraphQL API is available at `/api/graphql?query`
 5. [Add old quote](#add-old-quote)
 
 #### Overview
+
 ```
 type Query {
     quote(id: ID!): Quote
@@ -66,7 +81,9 @@ input SortInput {
 ```
 
 <a name="fetch-all-persons"></a>
+
 #### Fetch all persons
+
 ```
 {
     persons {
@@ -76,7 +93,9 @@ input SortInput {
 ```
 
 <a name="search-for-person"></a>
+
 #### Search for person
+
 ```
 {
     persons(name: "bob") {
@@ -86,7 +105,9 @@ input SortInput {
 ```
 
 <a name="fetch-quotes"></a>
+
 #### Fetch quotes
+
 ```
 {
     quotes(amount: 10, page: 0) {
@@ -107,7 +128,9 @@ input SortInput {
 ```
 
 <a name="add-new-quote"></a>
+
 #### Add new quote
+
 ```
 mutation {
     addQuote(input: {
@@ -128,7 +151,9 @@ mutation {
 ```
 
 <a name="add-old-quote"></a>
+
 #### Add old quote
+
 ```
 mutation {
     addQuote(input: {
@@ -148,3 +173,8 @@ mutation {
     }
 }
 ```
+
+## Useful resources
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.

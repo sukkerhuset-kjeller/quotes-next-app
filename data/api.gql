@@ -1,41 +1,46 @@
 type Query {
-    quote(id: ID!): Quote
-    quotes(input: QuoteSearchInput, sort: SortInput, amount: Int!, page: Int!): [Quote]
-    person(id: ID!): Person
-    persons(name: String): [Person]
+  quote(id: ID!): Quote
+  quotes(
+    input: QuoteSearchInput
+    sort: SortInput
+    amount: Int!
+    page: Int!
+  ): [Quote]
+  person(id: ID!): Person
+  persons(name: String): [Person]
 }
 
 type Mutation {
-    addQuote(input: QuoteInput!): Quote
+  addQuote(input: QuoteInput!): Quote
 }
 
 type Quote {
-    id: ID!
-    text: String!
-    date: String!
-    votes: Int!
-    said_by: Person
-    tags: [Person]
+  id: ID!
+  text: String!
+  date: String!
+  votes: Int!
+  said_by: Person
+  tags: [Person]
 }
 
 type Person {
-    id: ID!
-    name: String!
+  id: ID!
+  name: String!
 }
 
 input QuoteInput {
-    text: String!
-    said_by: ID!
-    date: String
-    tags: [ID]
+  text: String!
+  said_by: ID!
+  date: String
+  tags: [ID]
 }
 
 input QuoteSearchInput {
-    quote: String
-    person: String
+  quote: String
+  person: String
 }
 
 input SortInput {
-    field: String!
-    ascending: Boolean!
+  field: String!
+  ascending: Boolean!
 }
