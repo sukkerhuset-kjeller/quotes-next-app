@@ -10,7 +10,7 @@ const CardList = () => {
     query(
       `query { quotes(amount: 10, page: 0) { text, said_by{name}, date } }`
     ).then(res => setQuotes(res?.data?.quotes.reverse()));
-  });
+  }, []);
 
   return (
     <div className="card-list">
