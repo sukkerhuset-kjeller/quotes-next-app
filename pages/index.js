@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <Container>
       <Head>
-        <title>Sukkerhuset sitater</title>
+        <title>Sukkerhuset Sitater</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css?family=Montserrat:400,500i,600,700&display=swap"

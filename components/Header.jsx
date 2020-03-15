@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <div className="header">
-      <h1>Sukkerhuset sitater</h1>
+      <h1>Sukkerhuset Sitater</h1>
 
       <style jsx>{`
         .header {
