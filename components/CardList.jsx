@@ -18,7 +18,7 @@ const CardList = ({ data }) => {
           display: flex;
           flex-direction: column-reverse;
           margin: 0 auto;
-          margin-top: 128px;
+          margin-top: 64px;
         }
       `}</style>
     </div>
