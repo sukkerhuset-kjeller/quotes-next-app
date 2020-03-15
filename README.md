@@ -1,7 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
-
+# Sukkerhuset Quotes
 ## Getting Started
-
 First, run the development server:
 
 ```bash
@@ -12,19 +10,141 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## API
+The GraphQL API is available at `/api/graphql?query`
 
-## Learn More
+### Examples
+1. [Fetch all persons](#fetch-all-persons)
+2. [Search for person](#search-for-person)
+3. [Fetch quotes](#fetch-quotes)
+4. [Add new quote](#add-new-quote)
+5. [Add old quote](#add-old-quote)
 
-To learn more about Next.js, take a look at the following resources:
+#### Overview
+```
+type Query {
+    quote(id: ID!): Quote
+    quotes(input: QuoteSearchInput, sort: SortInput, amount: Int!, page: Int!): [Quote]
+    person(id: ID!): Person
+    persons(name: String): [Person]
+}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+type Mutation {
+    addQuote(input: QuoteInput!): Quote
+}
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
+type Quote {
+    id: ID!
+    text: String!
+    date: String!
+    votes: Int!
+    said_by: Person
+    tags: [Person]
+}
 
-## Deploy on ZEIT Now
+type Person {
+    id: ID!
+    name: String!
+}
 
-The easiest way to deploy your Next.js app is to use the [ZEIT Now Platform](https://zeit.co/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+input QuoteInput {
+    text: String!
+    said_by: ID!
+    date: String
+    tags: [ID]
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+input QuoteSearchInput {
+    quote: String
+    person: String
+}
+
+input SortInput {
+    field: String!
+    ascending: Boolean!
+}
+```
+
+<a name="fetch-all-persons"></a>
+#### Fetch all persons
+```
+{
+    persons {
+        name
+    }
+}
+```
+
+<a name="search-for-person"></a>
+#### Search for person
+```
+{
+    persons(name: "bob") {
+        name
+    }
+}
+```
+
+<a name="fetch-quotes"></a>
+#### Fetch quotes
+```
+{
+    quotes(amount: 10, page: 0) {
+        id
+        text
+        date
+        votes
+        said_by {
+            id
+            name
+        }
+        tags {
+            id
+            name
+        }
+    }
+}
+```
+
+<a name="add-new-quote"></a>
+#### Add new quote
+```
+mutation {
+    addQuote(input: {
+        text: "<quote text>"
+        said_by: "<id of person>"
+    }) {
+        text
+        date
+        votes
+        said_by {
+            name
+        }
+        tags {
+            name
+        }
+    }
+}
+```
+
+<a name="add-old-quote"></a>
+#### Add old quote
+```
+mutation {
+    addQuote(input: {
+        text: "<quote text>"
+        said_by: "<id of person>"
+        date: "<milliseconds since 1970 as string>"
+    }) {
+        text
+        date
+        votes
+        said_by {
+            name
+        }
+        tags {
+            name
+        }
+    }
+}
+```
