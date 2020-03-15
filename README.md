@@ -4,6 +4,14 @@ This is an app created to collect quotes at Sukkerhuset Kjeller. It is built usi
 
 ## Getting Started
 
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn
+```
+
 First, run the development server:
 
 ```bash
