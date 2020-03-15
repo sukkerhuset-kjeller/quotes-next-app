@@ -36,8 +36,8 @@ const Card = ({ text, said_by, date }) => {
         }
 
         .card__quote {
-          font-size: 1.5rem;
-          font-weight: 800;
+          font-size: 1.4rem;
+          font-weight: 500;
           margin: 0.5rem 0;
         }
 

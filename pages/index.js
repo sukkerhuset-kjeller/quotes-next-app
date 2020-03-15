@@ -2,6 +2,8 @@ import Head from "next/head";
 import { subDays, subHours } from "date-fns";
 import Header from "../components/Header";
 import CardList from "../components/CardList";
+import AddButton from "../components/AddButton";
+import AddModal from "../components/AddModal";
 
 const cards = [
   {
@@ -36,13 +38,19 @@ const Home = () => {
       <Head>
         <title>Sukkerhuset sitater</title>
         <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Montserrat:400,500i,600,700&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
       <Header></Header>
       <CardList data={cards} />
+      <AddButton />
+      {/*<AddModal/>*/}
       <style jsx>{`
         .container {
           min-height: 100vh;
-          padding: 0 0.5rem;
+          padding: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -53,9 +61,7 @@ const Home = () => {
         body {
           padding: 0;
           margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
+          font-family: "Montserrat", sans-serif;
           background: #dedce0;
         }
         * {
