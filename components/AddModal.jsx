@@ -66,7 +66,6 @@ const AddModal = ({ show, setShow }) => {
     <ModalBackground show={show}>
       <Modal>
         <TextField
-          className="add-modal__text-field"
           type="text"
           placeholder="Sitat"
           onChange={e => setQuote(e.target.value)}
@@ -84,7 +83,6 @@ const AddModal = ({ show, setShow }) => {
           }))}
         />
         <AddModalButton
-          className="add-modal__button"
           onClick={() =>
             query(
               `mutation { addQuote(input: { text: "${quote}", said_by: "${saidBy}", date: "${new Date().getTime()}" }) { id } }`
