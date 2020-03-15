@@ -5,7 +5,8 @@ const Card = ({ text, said_by, date }) => {
   return (
     <div className="card">
       <p className="card__date">
-        {formatDistance(new Date(date), new Date(), { locale: nb })} siden
+        {formatDistance(new Date(Number(date)), new Date(), { locale: nb })}{" "}
+        siden
       </p>
       <p className="card__quote">{text}</p>
       <p className="card__author">{said_by}</p>
