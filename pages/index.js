@@ -1,13 +1,25 @@
+import { useState } from "react";
 import Head from "next/head";
+import styled from "styled-components";
 
 import Header from "../components/Header";
 import CardList from "../components/CardList";
 import AddButton from "../components/AddButton";
 import AddModal from "../components/AddModal";
 
+const Container = styled.div`
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Home = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="container">
+    <Container>
       <Head>
         <title>Sukkerhuset sitater</title>
         <link rel="icon" href="/favicon.ico" />
@@ -18,17 +30,14 @@ const Home = () => {
       </Head>
       <Header></Header>
       <CardList />
-      <AddButton />
-      {/*<AddModal/>*/}
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      `}</style>
+      <AddButton
+        onClick={() => {
+          setShowModal(true);
+        }}
+      >
+        <img src="/icon-add.svg" alt="" />
+      </AddButton>
+      <AddModal show={showModal} setShow={setShowModal} />
       <style jsx global>{`
         html,
         body {
@@ -41,7 +50,7 @@ const Home = () => {
           box-sizing: border-box;
         }
       `}</style>
-    </div>
+    </Container>
   );
 };
 
