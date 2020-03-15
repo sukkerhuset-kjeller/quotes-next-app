@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import query from "../lib/api-lib";
 
@@ -6,14 +6,15 @@ import Card from "./Card";
 
 const CardList = () => {
   const [quotes, setQuotes] = useState([]);
-  query(
-    `query { quotes(amount: 10, page: 0) { text, said_by{name}, date } }`
-  ).then(res => setQuotes(res?.data?.quotes));
-  const cards = quotes ? quotes.reverse() : [];
+  useEffect(() => {
+    query(
+      `query { quotes(amount: 10, page: 0) { text, said_by{name}, date } }`
+    ).then(res => setQuotes(res?.data?.quotes.reverse()));
+  });
 
   return (
     <div className="card-list">
-      {cards.map((entry, index) => (
+      {quotes.map((entry, index) => (
         <Card
           key={index}
           text={entry?.text}
