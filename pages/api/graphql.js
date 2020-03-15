@@ -1,40 +1,30 @@
-import { ApolloServer, gql } from 'apollo-server-micro';
-import Cors from 'micro-cors';
+import { ApolloServer, gql } from "apollo-server-micro";
+import Cors from "micro-cors";
+import td from "../../data/api.gql";
+import api from "../../data";
 
-const typeDefs = gql`
-    type Query {
-        hello: String!
-    }
-`;
-
-const resolvers = {
-    Query: {
-        hello: (_parent, _args, _context) => 'hello',
-    },
-};
+const typeDefs = gql(td);
 
 const cors = Cors({
-    allowMethods: [
-        'GET',
-        'POST',
-        'OPTIONS'
-    ],
+  allowMethods: ["GET", "POST", "OPTIONS"]
 });
+
+const resolvers = api();
 
 const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: () => {
-        return {};
-    },
+  typeDefs,
+  resolvers,
+  context: () => {
+    return {};
+  }
 });
 
-const handler = apolloServer.createHandler({ path: '/api/graphql' });
+const handler = apolloServer.createHandler({ path: "/api/graphql" });
 
 export const config = {
-    api: {
-        bodyParser: false,
-    },
+  api: {
+    bodyParser: false
+  }
 };
 
 export default cors(handler);
