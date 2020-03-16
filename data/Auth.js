@@ -12,15 +12,12 @@ export const login = (username, password) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
-        console.log(username);
         db.collection("users")
           .findOne({
             username
           })
           .then(user => {
-            console.log(user);
             if (!user) {
-              console.log("username");
               return reject("Wrong username or password");
             }
             bcrypt

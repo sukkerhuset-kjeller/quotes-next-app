@@ -33,7 +33,7 @@ export const getQuote = id =>
           })
           .catch(reject);
       })
-      .catch(console.error);
+      .catch(reject);
   });
 
 export const getQuotes = (input, sort, amount, page) =>
@@ -137,8 +137,6 @@ export const heartQuote = (id, userId) =>
             _id: ObjectID(id)
           })
           .then(quote => {
-            console.log(quote);
-            console.log(quote?.votes);
             if (
               quote?.votes?.filter(voteId => voteId + "" == userId + "")
                 .length > 0
