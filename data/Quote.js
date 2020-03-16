@@ -88,7 +88,7 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                       qt =>
                         new Quote(
                           qt,
-                          result[0].hearts?.filter(h => h + "" === userId + "")
+                          qt.hearts?.filter(h => h + "" === userId + "")
                             .length > 0
                         )
                     )
@@ -101,8 +101,7 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                   qt =>
                     new Quote(
                       qt,
-                      result[0].hearts?.filter(h => h + "" === userId + "")
-                        .length > 0
+                      qt.hearts?.filter(h => h + "" === userId + "").length > 0
                     )
                 )
               );
