@@ -59,23 +59,17 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                 if (!query.$or) {
                     delete query.$or;
                 }
+                const sortQuery = {};
+                if (sort?.field) {
+                    sortQuery[sort.field] = sort.ascending ? 1 : -1;
+                }
                 collection
                     .find(query)
+                    .sort(sortQuery)
                     .skip(amount * page)
                     .limit(amount)
                     .toArray()
                     .then((result) => {
-                        if (sort) {
-                            result.sort((a, b) => {
-                                if (sort.field == 'date') {
-                                    if (sort.ascending) {
-                                        return Number(a.date) - Number(b.date);
-                                    } else {
-                                        return Number(b.date) - Number(a.date);
-                                    }
-                                }
-                            });
-                        }
                         if (input?.person?.length > 0) {
                             getPersons(input.person)
                                 .then((persons) => {
