@@ -4,7 +4,7 @@ for (var i = 0; i < dataCount; i++) {
     console.log(
         `    {
         text: "Quote #${i + 1}",
-        date: "1582329600000",
+        date: ${1582329600000 + i},
         saidBy: "5e5a7051e2db041719cdcf99",
         tags: [],
         hearts: [],
