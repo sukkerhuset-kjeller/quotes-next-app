@@ -6,7 +6,8 @@
         "dev": "dotenv next",
         "build": "next build",
         "start": "next start -p $PORT",
-        "heroku-postbuild": "npm run build"
+        "heroku-postbuild": "npm run build",
+        "prettier": "prettier --write components/**.jsx data/**.js lib/**.js pages/**.js"
     },
     "husky": {
         "hooks": {
