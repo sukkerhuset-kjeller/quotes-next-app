@@ -6,7 +6,7 @@ export default class Quote {
     constructor({ _id, text, date, hearts, saidBy, tags }, hasHearted) {
         this.id = _id;
         this.text = text;
-        this.date = date;
+        this.date = date + '';
         this.hearts = hearts?.length || 0;
         this.saidBy = saidBy;
         this.tags = tags;
@@ -147,7 +147,7 @@ export const addQuote = (text, date, saidBy, tags) =>
                                     saidBy,
                                     tags: tags || [],
                                     hearts: [],
-                                    date: date || new Date().toUTCString(),
+                                    date: Number(date) || new Date().getTime(),
                                 })
                                 .then((result) =>
                                     resolve(new Quote(result.ops[0]))
