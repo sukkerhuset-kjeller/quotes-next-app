@@ -2,14 +2,12 @@ import { ObjectID } from "mongodb";
 import { getDB } from "./db";
 import { getPerson, getPersons } from "./Person";
 
-// TODO: heartQuote, getQuotesWithSort
-
 export default class Quote {
   constructor({ _id, text, date, votes, said_by, tags }) {
     this.id = _id;
     this.text = text;
     this.date = date;
-    this.votes = votes || 0;
+    this.votes = votes?.length || 0;
     this.said_by = said_by;
     this.tags = tags;
   }
@@ -95,7 +93,7 @@ export const getQuotes = (input, sort, amount, page) =>
 
 export const addQuote = (text, date, said_by, tags) =>
   new Promise((resolve, reject) => {
-    if (isNaN(Number(date))) {
+    if (date && isNaN(Number(date))) {
       return reject(
         "Date invalid, string with number of milliseconds since 1970"
       );
@@ -118,7 +116,7 @@ export const addQuote = (text, date, said_by, tags) =>
                   date,
                   said_by,
                   tags: tags || [],
-                  votes: 0,
+                  votes: [],
                   date: date || new Date().toUTCString()
                 })
                 .then(result => resolve(new Quote(result.ops[0])))
@@ -130,13 +128,40 @@ export const addQuote = (text, date, said_by, tags) =>
       .catch(reject);
   });
 
-export const upVote = id =>
+export const heartQuote = (id, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
-        const collection = db.collection("quotes");
-        collection;
-        resolve();
+        db.collection("quotes")
+          .findOne({
+            _id: ObjectID(id)
+          })
+          .then(quote => {
+            console.log(quote);
+            console.log(quote?.votes);
+            if (
+              quote?.votes?.filter(voteId => voteId + "" == userId + "")
+                .length > 0
+            ) {
+              return reject("Already voted");
+            }
+            db.collection("quotes")
+              .update(
+                {
+                  _id: ObjectID(id)
+                },
+                {
+                  $push: {
+                    votes: userId
+                  }
+                }
+              )
+              .then(() => {
+                resolve(quote.votes.length + 1);
+              })
+              .catch(reject);
+          })
+          .catch(reject);
       })
       .catch(reject);
   });
