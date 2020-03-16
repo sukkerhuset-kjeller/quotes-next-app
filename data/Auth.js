@@ -1,6 +1,9 @@
 import { getDB } from "./db";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import getConfig from "next/config";
+
+const { serverRuntimeConfig } = getConfig();
 
 const saltRounds = 10;
 const sessionValidTime = 86400000;
@@ -81,30 +84,34 @@ export const register = (username, password) =>
 
 export const getUserSession = session =>
   new Promise((resolve, reject) => {
-    getDB()
-      .then(db => {
-        db.collection("sessions")
-          .findOne({ session })
-          .then(session => {
-            if (!session) {
-              resolve();
-            } else if (
-              new Date(session.createdAt).getTime() + sessionValidTime <
-              new Date().getTime()
-            ) {
-              db.collection("sessions")
-                .deleteOne({ _id: session._id })
-                .then(() => {
-                  resolve();
-                })
-                .catch(reject);
-            } else {
-              resolve(session.id);
-            }
-          })
-          .catch(reject);
-      })
-      .catch(reject);
+    if (!serverRuntimeConfig.AUTH_REQUIRED) {
+      resolve("id");
+    } else {
+      getDB()
+        .then(db => {
+          db.collection("sessions")
+            .findOne({ session })
+            .then(session => {
+              if (!session) {
+                resolve();
+              } else if (
+                new Date(session.createdAt).getTime() + sessionValidTime <
+                new Date().getTime()
+              ) {
+                db.collection("sessions")
+                  .deleteOne({ _id: session._id })
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch(reject);
+              } else {
+                resolve(session.id);
+              }
+            })
+            .catch(reject);
+        })
+        .catch(reject);
+    }
   });
 
 export const logout = userId =>
