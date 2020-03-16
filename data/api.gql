@@ -12,15 +12,20 @@ type Query {
 
 type Mutation {
   addQuote(input: QuoteInput!): Quote
+  heartQuote(id: ID!): Int
+  login(username: String!, password: String!): String
+  register(username: String!, password: String!): Boolean
+  logout: Boolean
 }
 
 type Quote {
   id: ID!
   text: String!
   date: String!
-  votes: Int!
-  said_by: Person
+  hearts: Int!
+  saidBy: Person!
   tags: [Person]
+  hasHearted: Boolean!
 }
 
 type Person {
@@ -30,7 +35,7 @@ type Person {
 
 input QuoteInput {
   text: String!
-  said_by: ID!
+  saidBy: ID!
   date: String
   tags: [ID]
 }

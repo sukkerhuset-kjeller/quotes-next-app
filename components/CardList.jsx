@@ -8,7 +8,7 @@ const CardList = () => {
   const [quotes, setQuotes] = useState([]);
   useEffect(() => {
     query(
-      `query { quotes(amount: 100, page: 0) { text, said_by{name}, date } }`
+      `query { quotes(amount: 100, page: 0) { text, saidBy{name}, date } }`
     ).then(res => setQuotes(res?.data?.quotes.reverse()));
   }, []);
 
@@ -18,7 +18,7 @@ const CardList = () => {
         <Card
           key={index}
           text={entry?.text}
-          said_by={entry?.said_by?.name}
+          saidBy={entry?.saidBy?.name}
           date={entry?.date}
         />
       ))}

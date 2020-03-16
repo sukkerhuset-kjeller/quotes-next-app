@@ -24,57 +24,103 @@ The GraphQL API is available at `/api/graphql?query`
 
 ### Examples
 
-1. [Fetch all persons](#fetch-all-persons)
-2. [Search for person](#search-for-person)
-3. [Fetch quotes](#fetch-quotes)
-4. [Add new quote](#add-new-quote)
-5. [Add old quote](#add-old-quote)
+1. [Authentication](#auth)
+2. [Fetch all persons](#fetch-all-persons)
+3. [Search for person](#search-for-person)
+4. [Fetch quotes](#fetch-quotes)
+5. [Add new quote](#add-new-quote)
+6. [Add old quote](#add-old-quote)
 
 #### Overview
 
 ```
 type Query {
-    quote(id: ID!): Quote
-    quotes(input: QuoteSearchInput, sort: SortInput, amount: Int!, page: Int!): [Quote]
-    person(id: ID!): Person
-    persons(name: String): [Person]
+  quote(id: ID!): Quote
+  quotes(
+    input: QuoteSearchInput
+    sort: SortInput
+    amount: Int!
+    page: Int!
+  ): [Quote]
+  person(id: ID!): Person
+  persons(name: String): [Person]
 }
 
 type Mutation {
-    addQuote(input: QuoteInput!): Quote
+  addQuote(input: QuoteInput!): Quote
+  heartQuote(id: ID!): Int
+  login(username: String!, password: String!): String
+  register(username: String!, password: String!): Boolean
+  logout: Boolean
 }
 
 type Quote {
-    id: ID!
-    text: String!
-    date: String!
-    votes: Int!
-    said_by: Person
-    tags: [Person]
+  id: ID!
+  text: String!
+  date: String!
+  heats: Int!
+  saidBy: Person!
+  tags: [Person]
+  hasHearted: Boolean!
 }
 
 type Person {
-    id: ID!
-    name: String!
+  id: ID!
+  name: String!
 }
 
 input QuoteInput {
-    text: String!
-    said_by: ID!
-    date: String
-    tags: [ID]
+  text: String!
+  saidBy: ID!
+  date: String
+  tags: [ID]
 }
 
 input QuoteSearchInput {
-    quote: String
-    person: String
+  quote: String
+  person: String
 }
 
 input SortInput {
-    field: String!
-    ascending: Boolean!
+  field: String!
+  ascending: Boolean!
+}
+
+```
+
+<a name="auth"></a>
+
+#### Authentication
+
+Login:
+
+```
+mutation {
+    login(username: "", password: "")
 }
 ```
+
+This returns session id as a string. All future API calls should include this in the `Authentication` header.
+
+Registration:
+
+```
+mutation {
+    register(username: "", password: "")
+}
+```
+
+This returns a bool telling if the process were successful.
+
+Logout:
+
+```
+mutation {
+    logout
+}
+```
+
+This invalidates the current session.
 
 <a name="fetch-all-persons"></a>
 
@@ -110,8 +156,8 @@ input SortInput {
         id
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             id
             name
         }
@@ -131,12 +177,12 @@ input SortInput {
 mutation {
     addQuote(input: {
         text: "<quote text>"
-        said_by: "<id of person>"
+        saidBy: "<id of person>"
     }) {
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             name
         }
         tags {
@@ -154,13 +200,13 @@ mutation {
 mutation {
     addQuote(input: {
         text: "<quote text>"
-        said_by: "<id of person>"
+        saidBy: "<id of person>"
         date: "<milliseconds since 1970 as string>"
     }) {
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             name
         }
         tags {

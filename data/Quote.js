@@ -2,20 +2,19 @@ import { ObjectID } from "mongodb";
 import { getDB } from "./db";
 import { getPerson, getPersons } from "./Person";
 
-// TODO: heartQuote, getQuotesWithSort
-
 export default class Quote {
-  constructor({ _id, text, date, votes, said_by, tags }) {
+  constructor({ _id, text, date, hearts, saidBy, tags }, hasHearted) {
     this.id = _id;
     this.text = text;
     this.date = date;
-    this.votes = votes || 0;
-    this.said_by = said_by;
+    this.hearts = hearts?.length || 0;
+    this.saidBy = saidBy;
     this.tags = tags;
+    this.hasHearted = hasHearted || false;
   }
 }
 
-export const getQuote = id =>
+export const getQuote = (id, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
@@ -30,15 +29,18 @@ export const getQuote = id =>
             if (result.length == 0) {
               return resolve(null);
             }
-            const quote = new Quote(result[0]);
+            const quote = new Quote(
+              result[0],
+              result[0].hearts?.filter(h => h + "" === userId + "").length > 0
+            );
             resolve(quote);
           })
           .catch(reject);
       })
-      .catch(console.error);
+      .catch(reject);
   });
 
-export const getQuotes = (input, sort, amount, page) =>
+export const getQuotes = (input, sort, amount, page, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
@@ -78,14 +80,31 @@ export const getQuotes = (input, sort, amount, page) =>
                   result = result.filter(
                     q =>
                       persons.filter(
-                        p => q.said_by == p.id || q.tags.indexOf(q.id) != -1
+                        p => q.saidBy == p.id || q.tags.indexOf(q.id) != -1
                       ).length > 0
                   );
-                  resolve(result.map(qt => new Quote(qt)));
+                  resolve(
+                    result.map(
+                      qt =>
+                        new Quote(
+                          qt,
+                          qt.hearts?.filter(h => h + "" === userId + "")
+                            .length > 0
+                        )
+                    )
+                  );
                 })
                 .catch(reject);
             } else {
-              resolve(result.map(qt => new Quote(qt)));
+              resolve(
+                result.map(
+                  qt =>
+                    new Quote(
+                      qt,
+                      qt.hearts?.filter(h => h + "" === userId + "").length > 0
+                    )
+                )
+              );
             }
           })
           .catch(reject);
@@ -93,16 +112,16 @@ export const getQuotes = (input, sort, amount, page) =>
       .catch(reject);
   });
 
-export const addQuote = (text, date, said_by, tags) =>
+export const addQuote = (text, date, saidBy, tags) =>
   new Promise((resolve, reject) => {
-    if (isNaN(Number(date))) {
+    if (date && isNaN(Number(date))) {
       return reject(
         "Date invalid, string with number of milliseconds since 1970"
       );
     }
     getDB()
       .then(db => {
-        const persons = [said_by];
+        const persons = [saidBy];
         if (tags) {
           tags.forEach(p => persons.push(p));
         }
@@ -116,9 +135,9 @@ export const addQuote = (text, date, said_by, tags) =>
                 .insertOne({
                   text,
                   date,
-                  said_by,
+                  saidBy,
                   tags: tags || [],
-                  votes: 0,
+                  hearts: [],
                   date: date || new Date().toUTCString()
                 })
                 .then(result => resolve(new Quote(result.ops[0])))
@@ -130,13 +149,38 @@ export const addQuote = (text, date, said_by, tags) =>
       .catch(reject);
   });
 
-export const upVote = id =>
+export const heartQuote = (id, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
-        const collection = db.collection("quotes");
-        collection;
-        resolve();
+        db.collection("quotes")
+          .findOne({
+            _id: ObjectID(id)
+          })
+          .then(quote => {
+            if (
+              quote?.hearts?.filter(heartId => heartId + "" == userId + "")
+                .length > 0
+            ) {
+              return reject("Already hearted");
+            }
+            db.collection("quotes")
+              .update(
+                {
+                  _id: ObjectID(id)
+                },
+                {
+                  $push: {
+                    hearts: userId
+                  }
+                }
+              )
+              .then(() => {
+                resolve(quote.hearts.length + 1);
+              })
+              .catch(reject);
+          })
+          .catch(reject);
       })
       .catch(reject);
   });
