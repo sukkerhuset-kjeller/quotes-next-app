@@ -58,9 +58,10 @@ type Quote {
   id: ID!
   text: String!
   date: String!
-  votes: Int!
-  said_by: Person
+  heats: Int!
+  saidBy: Person!
   tags: [Person]
+  hasHearted: Boolean!
 }
 
 type Person {
@@ -70,7 +71,7 @@ type Person {
 
 input QuoteInput {
   text: String!
-  said_by: ID!
+  saidBy: ID!
   date: String
   tags: [ID]
 }
@@ -155,8 +156,8 @@ This invalidates the current session.
         id
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             id
             name
         }
@@ -176,12 +177,12 @@ This invalidates the current session.
 mutation {
     addQuote(input: {
         text: "<quote text>"
-        said_by: "<id of person>"
+        saidBy: "<id of person>"
     }) {
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             name
         }
         tags {
@@ -199,13 +200,13 @@ mutation {
 mutation {
     addQuote(input: {
         text: "<quote text>"
-        said_by: "<id of person>"
+        saidBy: "<id of person>"
         date: "<milliseconds since 1970 as string>"
     }) {
         text
         date
-        votes
-        said_by {
+        hearts
+        saidBy {
             name
         }
         tags {

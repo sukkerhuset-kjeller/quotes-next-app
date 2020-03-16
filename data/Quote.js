@@ -3,17 +3,18 @@ import { getDB } from "./db";
 import { getPerson, getPersons } from "./Person";
 
 export default class Quote {
-  constructor({ _id, text, date, votes, said_by, tags }) {
+  constructor({ _id, text, date, hearts, saidBy, tags }, hasHearted) {
     this.id = _id;
     this.text = text;
     this.date = date;
-    this.votes = votes?.length || 0;
-    this.said_by = said_by;
+    this.hearts = hearts?.length || 0;
+    this.saidBy = saidBy;
     this.tags = tags;
+    this.hasHearted = hasHearted || false;
   }
 }
 
-export const getQuote = id =>
+export const getQuote = (id, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
@@ -28,7 +29,10 @@ export const getQuote = id =>
             if (result.length == 0) {
               return resolve(null);
             }
-            const quote = new Quote(result[0]);
+            const quote = new Quote(
+              result[0],
+              result[0].hearts?.filter(h => h + "" === userId + "").length > 0
+            );
             resolve(quote);
           })
           .catch(reject);
@@ -36,7 +40,7 @@ export const getQuote = id =>
       .catch(reject);
   });
 
-export const getQuotes = (input, sort, amount, page) =>
+export const getQuotes = (input, sort, amount, page, userId) =>
   new Promise((resolve, reject) => {
     getDB()
       .then(db => {
@@ -76,14 +80,32 @@ export const getQuotes = (input, sort, amount, page) =>
                   result = result.filter(
                     q =>
                       persons.filter(
-                        p => q.said_by == p.id || q.tags.indexOf(q.id) != -1
+                        p => q.saidBy == p.id || q.tags.indexOf(q.id) != -1
                       ).length > 0
                   );
-                  resolve(result.map(qt => new Quote(qt)));
+                  resolve(
+                    result.map(
+                      qt =>
+                        new Quote(
+                          qt,
+                          result[0].hearts?.filter(h => h + "" === userId + "")
+                            .length > 0
+                        )
+                    )
+                  );
                 })
                 .catch(reject);
             } else {
-              resolve(result.map(qt => new Quote(qt)));
+              resolve(
+                result.map(
+                  qt =>
+                    new Quote(
+                      qt,
+                      result[0].hearts?.filter(h => h + "" === userId + "")
+                        .length > 0
+                    )
+                )
+              );
             }
           })
           .catch(reject);
@@ -91,7 +113,7 @@ export const getQuotes = (input, sort, amount, page) =>
       .catch(reject);
   });
 
-export const addQuote = (text, date, said_by, tags) =>
+export const addQuote = (text, date, saidBy, tags) =>
   new Promise((resolve, reject) => {
     if (date && isNaN(Number(date))) {
       return reject(
@@ -100,7 +122,7 @@ export const addQuote = (text, date, said_by, tags) =>
     }
     getDB()
       .then(db => {
-        const persons = [said_by];
+        const persons = [saidBy];
         if (tags) {
           tags.forEach(p => persons.push(p));
         }
@@ -114,9 +136,9 @@ export const addQuote = (text, date, said_by, tags) =>
                 .insertOne({
                   text,
                   date,
-                  said_by,
+                  saidBy,
                   tags: tags || [],
-                  votes: [],
+                  hearts: [],
                   date: date || new Date().toUTCString()
                 })
                 .then(result => resolve(new Quote(result.ops[0])))
@@ -138,10 +160,10 @@ export const heartQuote = (id, userId) =>
           })
           .then(quote => {
             if (
-              quote?.votes?.filter(voteId => voteId + "" == userId + "")
+              quote?.hearts?.filter(heartId => heartId + "" == userId + "")
                 .length > 0
             ) {
-              return reject("Already voted");
+              return reject("Already hearted");
             }
             db.collection("quotes")
               .update(
@@ -150,12 +172,12 @@ export const heartQuote = (id, userId) =>
                 },
                 {
                   $push: {
-                    votes: userId
+                    hearts: userId
                   }
                 }
               )
               .then(() => {
-                resolve(quote.votes.length + 1);
+                resolve(quote.hearts.length + 1);
               })
               .catch(reject);
           })

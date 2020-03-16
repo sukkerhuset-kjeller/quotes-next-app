@@ -22,9 +22,10 @@ type Quote {
   id: ID!
   text: String!
   date: String!
-  votes: Int!
-  said_by: Person
+  hearts: Int!
+  saidBy: Person!
   tags: [Person]
+  hasHearted: Boolean!
 }
 
 type Person {
@@ -34,7 +35,7 @@ type Person {
 
 input QuoteInput {
   text: String!
-  said_by: ID!
+  saidBy: ID!
   date: String
   tags: [ID]
 }

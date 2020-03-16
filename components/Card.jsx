@@ -1,7 +1,7 @@
 import { formatDistance } from "date-fns";
 import { nb } from "date-fns/locale";
 
-const Card = ({ text, said_by, date }) => {
+const Card = ({ text, saidBy, date }) => {
   return (
     <div className="card">
       <p className="card__date">
@@ -9,7 +9,7 @@ const Card = ({ text, said_by, date }) => {
         siden
       </p>
       <p className="card__quote">{text}</p>
-      <p className="card__author">{said_by}</p>
+      <p className="card__author">{saidBy}</p>
 
       <style jsx>{`
         .card {

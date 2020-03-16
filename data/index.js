@@ -9,13 +9,13 @@ export default () => {
         if (!context?.userSession) {
           return Promise.reject("No user session found");
         }
-        return getQuote(id);
+        return getQuote(id, context.userSession);
       },
       quotes: (parent, { input, sort, amount, page }, context) => {
         if (!context?.userSession) {
           return Promise.reject("No user session found");
         }
-        return getQuotes(input, sort, amount, page);
+        return getQuotes(input, sort, amount, page, context.userSession);
       },
       person: (parent, { id }, context) => {
         if (!context?.userSession) {
@@ -35,7 +35,7 @@ export default () => {
         if (!context?.userSession) {
           return Promise.reject("No user session found");
         }
-        return addQuote(input.text, input.date, input.said_by, input.tags);
+        return addQuote(input.text, input.date, input.saidBy, input.tags);
       },
       heartQuote: (parent, { id }, context) => {
         if (!context?.userSession) {
@@ -54,7 +54,7 @@ export default () => {
       }
     },
     Quote: {
-      said_by: parent => getPerson(parent.said_by),
+      saidBy: parent => getPerson(parent.saidBy),
       tags: parent => Promise.all(parent.tags.map(person => getPerson(person)))
     }
   };
