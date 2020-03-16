@@ -71,7 +71,7 @@ const AddModal = ({ show, setShow }) => {
                     onChange={(e) => setQuote(e.target.value)}
                 />
                 <Select
-                    instanceId="said_by"
+                    instanceId="saidBy"
                     placeholder="Sagt av"
                     isClearable={true}
                     isSearchable={true}
@@ -85,7 +85,7 @@ const AddModal = ({ show, setShow }) => {
                 <AddModalButton
                     onClick={() =>
                         query(
-                            `mutation { addQuote(input: { text: "${quote}", said_by: "${saidBy}", date: "${new Date().getTime()}" }) { id } }`
+                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { id } }`
                         ).then((res) => {
                             setShow(false);
                         })

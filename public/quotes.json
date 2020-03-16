@@ -1,118 +1,118 @@
 {
-  "data": {
-    "quotes": [
-      {
-        "text": "Hvis du vil så kan vi splitte \"the work\". Du kan ta fremsiden, så tar jeg baksiden.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-02-23"
-      },
-      {
-        "text": "We're flying in airplanes all over the world. They're pink and heavy, and that's how they float.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-02-19"
-      },
-      {
-        "text": "Den var ikke spennende før den bevegde på seg.",
-        "said_by": {
-          "name": "Ole Kristian Aune"
-        },
-        "date": "2020-02-16"
-      },
-      {
-        "text": "Jeg må ha en finger i alle.",
-        "said_by": {
-          "name": "Odin Langgård Håkonsen"
-        },
-        "date": "2020-02-16"
-      },
-      {
-        "text": "Har du noe Vaseline?",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-02-01"
-      },
-      {
-        "text": "Hun var ikke like ruglete som huden rundt leppene mine.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-01-30"
-      },
-      {
-        "text": "Det var bilde av meg og hun oppå hverandre.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-01-30"
-      },
-      {
-        "text": "The rear entrance is always the best.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-01-21"
-      },
-      {
-        "text": "Snø is the world playing a game on you.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-01-20"
-      },
-      {
-        "text": "Pølsa er litt for bløt.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2020-01-09"
-      },
-      {
-        "text": "Jeg har sidesyn enda.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-15"
-      },
-      {
-        "text": "D e alt annet enn fette smud.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-15"
-      },
-      {
-        "text": "Det er verre når det blir verre.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-15"
-      },
-      {
-        "text": "Snø er regn i høyden.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-08"
-      },
-      {
-        "text": "Det høres ut som sexlivet mitt.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-08"
-      },
-      {
-        "text": "I-ene mine ser ut som to firkantparenteser som er bløtlagte.",
-        "said_by": {
-          "name": "Andreas Hammer"
-        },
-        "date": "2019-12-07"
-      }
-    ]
-  }
+    "data": {
+        "quotes": [
+            {
+                "text": "Hvis du vil så kan vi splitte \"the work\". Du kan ta fremsiden, så tar jeg baksiden.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-02-23"
+            },
+            {
+                "text": "We're flying in airplanes all over the world. They're pink and heavy, and that's how they float.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-02-19"
+            },
+            {
+                "text": "Den var ikke spennende før den bevegde på seg.",
+                "saidBy": {
+                    "name": "Ole Kristian Aune"
+                },
+                "date": "2020-02-16"
+            },
+            {
+                "text": "Jeg må ha en finger i alle.",
+                "saidBy": {
+                    "name": "Odin Langgård Håkonsen"
+                },
+                "date": "2020-02-16"
+            },
+            {
+                "text": "Har du noe Vaseline?",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-02-01"
+            },
+            {
+                "text": "Hun var ikke like ruglete som huden rundt leppene mine.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-01-30"
+            },
+            {
+                "text": "Det var bilde av meg og hun oppå hverandre.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-01-30"
+            },
+            {
+                "text": "The rear entrance is always the best.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-01-21"
+            },
+            {
+                "text": "Snø is the world playing a game on you.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-01-20"
+            },
+            {
+                "text": "Pølsa er litt for bløt.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2020-01-09"
+            },
+            {
+                "text": "Jeg har sidesyn enda.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-15"
+            },
+            {
+                "text": "D e alt annet enn fette smud.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-15"
+            },
+            {
+                "text": "Det er verre når det blir verre.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-15"
+            },
+            {
+                "text": "Snø er regn i høyden.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-08"
+            },
+            {
+                "text": "Det høres ut som sexlivet mitt.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-08"
+            },
+            {
+                "text": "I-ene mine ser ut som to firkantparenteser som er bløtlagte.",
+                "saidBy": {
+                    "name": "Andreas Hammer"
+                },
+                "date": "2019-12-07"
+            }
+        ]
+    }
 }
