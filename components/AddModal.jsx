@@ -8,7 +8,7 @@ const customSelectStyles = {};
 
 const ModalBackground = styled.div`
     display: ${(props) => (props.show ? 'flex' : 'none')};
-    z-index: 2;
+    z-index: 6000000;
     position: fixed;
     top: 0;
     right: 0;

@@ -11,7 +11,7 @@ const Header = () => {
                     max-width: 500px;
                     background: #ffffff;
                     color: #000000;
-                    z-index: 9999;
+                    z-index: 4000000;
                     box-shadow: 0px 1px 2px 0px #0000001a;
                 }
 
