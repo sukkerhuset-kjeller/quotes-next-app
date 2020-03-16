@@ -12,6 +12,10 @@ type Query {
 
 type Mutation {
   addQuote(input: QuoteInput!): Quote
+  heartQuote(id: ID!): Int
+  login(username: String!, password: String!): String
+  register(username: String!, password: String!): Boolean
+  logout: Boolean
 }
 
 type Quote {
