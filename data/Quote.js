@@ -115,7 +115,7 @@ export const getQuotes = (input, sort, amount, page, userId) =>
             .catch(reject);
     });
 
-export const addQuote = (text, date, saidBy, tags) =>
+export const addQuote = (text, date, saidBy, tags, userId) =>
     new Promise((resolve, reject) => {
         if (date && isNaN(Number(date))) {
             return reject(
@@ -142,6 +142,7 @@ export const addQuote = (text, date, saidBy, tags) =>
                                     tags: tags || [],
                                     hearts: [],
                                     date: Number(date) || new Date().getTime(),
+                                    createdBy: userId == 'id' ? null : userId,
                                 })
                                 .then((result) =>
                                     resolve(new Quote(result.ops[0]))
