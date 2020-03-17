@@ -45,7 +45,8 @@ export default () => {
                     input.text,
                     input.date,
                     input.saidBy,
-                    input.tags
+                    input.tags,
+                    context.userSession
                 );
             },
             heartQuote: (parent, { id }, context) => {

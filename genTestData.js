@@ -8,6 +8,7 @@ for (var i = 0; i < dataCount; i++) {
         saidBy: "5e5a7051e2db041719cdcf99",
         tags: [],
         hearts: [],
+        createdBy: ObjectId("5e5a7051e2db041719cdcf99")
     }` + (i + 1 < dataCount ? ',' : '')
     );
 }
