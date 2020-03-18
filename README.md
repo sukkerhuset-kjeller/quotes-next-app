@@ -33,7 +33,7 @@ The GraphQL API is available at `/api/graphql?query`
 
 #### Overview
 
-```
+```gql
 type Query {
   quote(id: ID!): Quote
   quotes(
@@ -94,7 +94,7 @@ input SortInput {
 
 Login:
 
-```
+```gql
 mutation {
     login(username: "", password: "")
 }
@@ -104,7 +104,7 @@ This returns session id as a string. All future API calls should include this in
 
 Registration:
 
-```
+```gql
 mutation {
     register(username: "", password: "")
 }
@@ -114,7 +114,7 @@ This returns a bool telling if the process were successful.
 
 Logout:
 
-```
+```gql
 mutation {
     logout
 }
@@ -126,7 +126,7 @@ This invalidates the current session.
 
 #### Fetch all persons
 
-```
+```gql
 {
     persons {
         name
@@ -138,7 +138,7 @@ This invalidates the current session.
 
 #### Search for person
 
-```
+```gql
 {
     persons(name: "bob") {
         name
@@ -150,7 +150,7 @@ This invalidates the current session.
 
 #### Fetch quotes
 
-```
+```gql
 {
     quotes(amount: 10, page: 0) {
         id
@@ -173,7 +173,7 @@ This invalidates the current session.
 
 #### Add new quote
 
-```
+```gql
 mutation {
     addQuote(input: {
         text: "<quote text>"
@@ -196,7 +196,7 @@ mutation {
 
 #### Add old quote
 
-```
+```gql
 mutation {
     addQuote(input: {
         text: "<quote text>"
