@@ -16,6 +16,7 @@ const Container = styled.div`
 `;
 
 const Home = () => {
+    const [quotes, setQuotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -28,14 +29,19 @@ const Home = () => {
                     rel="stylesheet"></link>
             </Head>
             <Header></Header>
-            <CardList />
+            <CardList quotes={quotes} setQuotes={setQuotes} />
             <AddButton
                 onClick={() => {
                     setShowModal(true);
                 }}>
                 <img src="/icon-add.svg" alt="" />
             </AddButton>
-            <AddModal show={showModal} setShow={setShowModal} />
+            <AddModal
+                show={showModal}
+                setShow={setShowModal}
+                quotes={quotes}
+                setQuotes={setQuotes}
+            />
             <style jsx global>{`
                 html,
                 body {

@@ -49,16 +49,16 @@ const AddModalButton = styled(Button)`
     margin-top: 1rem;
 `;
 
-const AddModal = ({ show, setShow }) => {
+const AddModal = ({ show, setShow, quotes, setQuotes }) => {
     const [quote, setQuote] = useState('');
     const [saidBy, setSaidBy] = useState(null);
     const [persons, setPersons] = useState([]);
     const [mounted, setMounted] = useState(true);
+
     useEffect(() => {
         query(`query { persons { name, id } }`).then(
             (res) => mounted && setPersons(res?.data?.persons)
         );
-
         return () => setMounted(false);
     }, []);
 
@@ -85,8 +85,14 @@ const AddModal = ({ show, setShow }) => {
                 <AddModalButton
                     onClick={() =>
                         query(
-                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { id } }`
+                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { text, saidBy{name}, date } }`
                         ).then((res) => {
+                            if (res?.data?.addQuote) {
+                                setQuotes([
+                                    { ...res.data.addQuote },
+                                    ...quotes,
+                                ]);
+                            }
                             setShow(false);
                         })
                     }>
