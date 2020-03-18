@@ -31,7 +31,8 @@ The GraphQL API is available at `/api/graphql?query`
 5. [Add new quote](#add-new-quote)
 6. [Add old quote](#add-old-quote)
 
-#### Overview
+<details>
+  <summary>Overview</summary>
 
 ```gql
 type Query {
@@ -87,6 +88,7 @@ input SortInput {
 }
 
 ```
+</details>
 
 <a name="auth"></a>
 
