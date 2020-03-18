@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
+import dynamic from 'next/dynamic';
 
 import { query } from '../lib/api-lib';
 
@@ -21,14 +22,19 @@ const Loader = styled.div`
     text-align: center;
 `;
 
-const CardList = () => {
+const ReactPullToRefresh = styled(
+    dynamic(() => import('react-pull-to-refresh'), { ssr: false })
+)`
+    width: 100%;
+`;
+
+const CardList = ({ quotes, setQuotes }) => {
     const [error, setError] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [quotes, setQuotes] = useState([]);
 
     const loadQuotes = debounce((page) => {
         query(
-            `query { quotes(amount: 10, page: ${page}) { text, saidBy{name}, date } }`
+            `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy{name}, date } }`
         )
             .then((res) => {
                 const data = res?.data?.quotes;
@@ -41,24 +47,47 @@ const CardList = () => {
             });
     }, 100);
 
+    const handleRefresh = (resolve, reject) => {
+        // do some async code here
+        setHasMore(true);
+        setError(false);
+        query(
+            `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy{name}, date } }`
+        )
+            .then((res) => {
+                const data = res?.data?.quotes;
+                if (data?.length < 10) setHasMore(false);
+                setQuotes([...res?.data?.quotes]);
+                resolve();
+            })
+            .catch((error) => {
+                console.error('test', error);
+                setError(true);
+                reject();
+            });
+    };
+
     return (
-        <InfiniteScroll
-            pageStart={-1}
-            loadMore={loadQuotes}
-            hasMore={hasMore}
-            loader={<Loader>Laster ...</Loader>}>
-            <CardListWrapper>
-                {quotes.map((entry, index) => (
-                    <Card
-                        style={{ zIndex: quotes.length - index }}
-                        key={index}
-                        text={entry?.text}
-                        saidBy={entry?.saidBy?.name}
-                        date={entry?.date}
-                    />
-                ))}
-            </CardListWrapper>
-        </InfiniteScroll>
+        <ReactPullToRefresh onRefresh={handleRefresh}>
+            <InfiniteScroll
+                style={{ width: '100%' }}
+                pageStart={-1}
+                loadMore={loadQuotes}
+                hasMore={hasMore}
+                loader={<Loader key={'loader'}>Laster ...</Loader>}>
+                <CardListWrapper>
+                    {quotes.map((entry, index) => (
+                        <Card
+                            style={{ zIndex: quotes.length - index }}
+                            key={index}
+                            text={entry?.text}
+                            saidBy={entry?.saidBy?.name}
+                            date={entry?.date}
+                        />
+                    ))}
+                </CardListWrapper>
+            </InfiniteScroll>
+        </ReactPullToRefresh>
     );
 };
 
