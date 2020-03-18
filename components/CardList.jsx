@@ -48,7 +48,6 @@ const CardList = ({ quotes, setQuotes }) => {
     }, 100);
 
     const handleRefresh = (resolve, reject) => {
-        // do some async code here
         setHasMore(true);
         setError(false);
         query(
