@@ -66,10 +66,5 @@ export default () => {
                 return logout(context.userSession);
             },
         },
-        Quote: {
-            saidBy: (parent) => getPerson(parent.saidBy),
-            tags: (parent) =>
-                Promise.all(parent.tags.map((person) => getPerson(person))),
-        },
     };
 };

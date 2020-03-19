@@ -1,6 +1,5 @@
 import { ObjectID } from 'mongodb';
 import { getDB } from './db';
-import { getPerson, getPersons } from './Person';
 
 export default class Quote {
     constructor({ _id, text, date, hearts, saidBy, tags }, hasHearted) {
@@ -56,6 +55,25 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                         },
                     }));
                 }
+                if (input?.person?.length > 0) {
+                    if (!query.$or) query.$or = [];
+                    input.person.split(' ').forEach((w) => {
+                        query.$or.push({
+                            saidBy: {
+                                $regex: '.*' + w + '.*',
+                                $options: 'i',
+                            },
+                        });
+                        query.$or.push({
+                            tags: {
+                                $elemMatch: {
+                                    $regex: '.*' + w + '.*',
+                                    $options: 'i',
+                                },
+                            },
+                        });
+                    });
+                }
                 if (!query.$or) {
                     delete query.$or;
                 }
@@ -70,45 +88,17 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                     .limit(amount)
                     .toArray()
                     .then((result) => {
-                        if (input?.person?.length > 0) {
-                            getPersons(input.person)
-                                .then((persons) => {
-                                    result = result.filter(
-                                        (q) =>
-                                            persons.filter(
-                                                (p) =>
-                                                    q.saidBy == p.id ||
-                                                    q.tags.indexOf(q.id) != -1
-                                            ).length > 0
-                                    );
-                                    resolve(
-                                        result.map(
-                                            (qt) =>
-                                                new Quote(
-                                                    qt,
-                                                    qt.hearts?.filter(
-                                                        (h) =>
-                                                            h + '' ===
-                                                            userId + ''
-                                                    ).length > 0
-                                                )
-                                        )
-                                    );
-                                })
-                                .catch(reject);
-                        } else {
-                            resolve(
-                                result.map(
-                                    (qt) =>
-                                        new Quote(
-                                            qt,
-                                            qt.hearts?.filter(
-                                                (h) => h + '' === userId + ''
-                                            ).length > 0
-                                        )
-                                )
-                            );
-                        }
+                        resolve(
+                            result.map(
+                                (qt) =>
+                                    new Quote(
+                                        qt,
+                                        qt.hearts?.filter(
+                                            (h) => h + '' === userId + ''
+                                        ).length > 0
+                                    )
+                            )
+                        );
                     })
                     .catch(reject);
             })
@@ -124,32 +114,18 @@ export const addQuote = (text, date, saidBy, tags, userId) =>
         }
         getDB()
             .then((db) => {
-                const persons = [saidBy];
-                if (tags) {
-                    tags.forEach((p) => persons.push(p));
-                }
-                Promise.all(persons.map((p) => getPerson(p)))
-                    .then((res) => {
-                        if (res.filter((p) => p == null).length != 0) {
-                            reject('Invalid person in input');
-                        } else {
-                            const collection = db.collection('quotes');
-                            collection
-                                .insertOne({
-                                    text,
-                                    date,
-                                    saidBy,
-                                    tags: tags || [],
-                                    hearts: [],
-                                    date: Number(date) || new Date().getTime(),
-                                    createdBy: userId == 'id' ? null : userId,
-                                })
-                                .then((result) =>
-                                    resolve(new Quote(result.ops[0]))
-                                )
-                                .catch(reject);
-                        }
+                const collection = db.collection('quotes');
+                collection
+                    .insertOne({
+                        text,
+                        date,
+                        saidBy,
+                        tags: tags || [],
+                        hearts: [],
+                        date: Number(date) || new Date().getTime(),
+                        createdBy: userId == 'id' ? null : userId,
                     })
+                    .then((result) => resolve(new Quote(result.ops[0])))
                     .catch(reject);
             })
             .catch(reject);
