@@ -16,7 +16,7 @@ const Button = styled.button`
     box-shadow: 0px 1px 2px 0px #0000001a;
     outline: none;
 
-    &:active {
+    &:focus {
         box-shadow: 0px 0px 0px 2px #2684ff;
     }
 `;

@@ -34,7 +34,7 @@ const CardList = ({ quotes, setQuotes }) => {
 
     const loadQuotes = debounce((page) => {
         query(
-            `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy{name}, date } }`
+            `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
         )
             .then((res) => {
                 const data = res?.data?.quotes;
@@ -51,7 +51,7 @@ const CardList = ({ quotes, setQuotes }) => {
         setHasMore(true);
         setError(false);
         query(
-            `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy{name}, date } }`
+            `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
         )
             .then((res) => {
                 const data = res?.data?.quotes;
@@ -80,7 +80,7 @@ const CardList = ({ quotes, setQuotes }) => {
                             style={{ zIndex: quotes.length - index }}
                             key={index}
                             text={entry?.text}
-                            saidBy={entry?.saidBy?.name}
+                            saidBy={entry?.saidBy}
                             date={entry?.date}
                         />
                     ))}
