@@ -1,4 +1,5 @@
 import { ObjectID } from 'mongodb';
+import sanitize from 'sanitize-html';
 import { getDB } from './db';
 
 export default class Quote {
@@ -112,14 +113,17 @@ export const addQuote = (text, date, saidBy, tags, userId) =>
                 'Date invalid, string with number of milliseconds since 1970'
             );
         }
+        if (tags) {
+            tags = tags?.map((p) => sanitize(p));
+        }
         getDB()
             .then((db) => {
                 const collection = db.collection('quotes');
                 collection
                     .insertOne({
-                        text,
+                        text: sanitize(text),
                         date,
-                        saidBy,
+                        saidBy: sanitize(saidBy),
                         tags: tags || [],
                         hearts: [],
                         date: Number(date) || new Date().getTime(),
