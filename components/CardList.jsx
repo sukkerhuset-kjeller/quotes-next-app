@@ -17,7 +17,6 @@ const CardListWrapper = styled.div`
 `;
 
 const Loader = styled.div`
-    padding: 1rem;
     margin: 0 auto;
     text-align: center;
 `;
@@ -26,6 +25,13 @@ const ReactPullToRefresh = styled(
     dynamic(() => import('react-pull-to-refresh'), { ssr: false })
 )`
     width: 100%;
+`;
+
+const RefreshText = styled.p`
+    padding: 1rem;
+    margin: 0 auto;
+    margin-top: -3rem;
+    text-align: center;
 `;
 
 const CardList = ({ quotes, setQuotes }) => {
@@ -68,6 +74,7 @@ const CardList = ({ quotes, setQuotes }) => {
 
     return (
         <ReactPullToRefresh onRefresh={handleRefresh}>
+            <RefreshText>Last inn nye quotes</RefreshText>
             <InfiniteScroll
                 style={{ width: '100%' }}
                 pageStart={-1}

@@ -1,7 +1,7 @@
-const Header = () => {
+const Header = ({ title }) => {
     return (
         <div className="header">
-            <h1>Sukkerhuset Sitater</h1>
+            <h1>{title}</h1>
 
             <style jsx>{`
                 .header {
