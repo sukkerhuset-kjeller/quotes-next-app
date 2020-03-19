@@ -115,7 +115,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 <AddModalButton
                     onClick={() =>
                         query(
-                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { text, saidBy, date } }`
+                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { text, saidBy, date } }`
                         ).then((res) => {
                             if (res?.data?.addQuote) {
                                 setQuotes([
