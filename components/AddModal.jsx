@@ -105,7 +105,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 onChange={(value, _) => setSaidBy(value.value)}
                 options={persons.map((person) => ({
                     label: person.name,
-                    value: person.id,
+                    value: person.name,
                 }))}
             />
             <ButtonContainer>
@@ -115,7 +115,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 <AddModalButton
                     onClick={() =>
                         query(
-                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { text, saidBy{name}, date } }`
+                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { text, saidBy, date } }`
                         ).then((res) => {
                             if (res?.data?.addQuote) {
                                 setQuotes([
