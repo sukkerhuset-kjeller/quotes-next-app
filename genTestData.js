@@ -5,7 +5,7 @@ for (var i = 0; i < dataCount; i++) {
         `    {
         text: "Quote #${i + 1}",
         date: ${1582329600000 + i},
-        saidBy: "5e5a7051e2db041719cdcf99",
+        saidBy: "Hammer",
         tags: [],
         hearts: [],
         createdBy: ObjectId("5e5a7051e2db041719cdcf99")

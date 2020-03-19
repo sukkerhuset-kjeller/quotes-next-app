@@ -23,8 +23,8 @@ type Quote {
     text: String!
     date: String!
     hearts: Int!
-    saidBy: Person!
-    tags: [Person]
+    saidBy: String!
+    tags: [String]
     hasHearted: Boolean!
 }
 
@@ -35,9 +35,9 @@ type Person {
 
 input QuoteInput {
     text: String!
-    saidBy: ID!
+    saidBy: String!
     date: String
-    tags: [ID]
+    tags: [String]
 }
 
 input QuoteSearchInput {
