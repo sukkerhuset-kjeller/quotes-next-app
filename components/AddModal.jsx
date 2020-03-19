@@ -27,6 +27,7 @@ const StyledModal = styled(ReactModalAdapter).attrs({
         min-height: 100px;
         margin: 1rem;
         padding: 2rem;
+        outline: none;
     }
     .Overlay {
         display: flex;
@@ -46,6 +47,12 @@ ReactModal.setAppElement('#__next');
 
 const customSelectStyles = {};
 
+const Title = styled.h2`
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0;
+`;
+
 const TextField = styled.input`
     border: none;
     width: 100%;
@@ -54,6 +61,11 @@ const TextField = styled.input`
     border-bottom: 1px solid #dddddd;
     margin-bottom: 1rem;
     padding: 0.5rem 10px;
+    outline: none;
+
+    &:focus {
+        box-shadow: 0px 0px 0px 2px #2684ff;
+    }
 
     &::placeholder {
         color: hsl(0, 0%, 50%);
@@ -74,6 +86,11 @@ const CancelModalButton = styled(Button)`
 const AddModalButton = styled(Button)`
     margin-top: 1rem;
     margin-left: 0.5rem;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
 `;
 
 const AddModal = ({ show, setShow, quotes, setQuotes }) => {
@@ -91,10 +108,11 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
 
     return (
         <StyledModal isOpen={show} onRequestClose={() => setShow(false)}>
+            <Title>Legg til ny quote</Title>
             <TextField
                 type="text"
-                placeholder="Sitat"
-                onChange={(e) => setQuote(e.target.value)}
+                placeholder="Quote"
+                onChange={(e) => setQuote(e?.target?.value)}
             />
             <Select
                 instanceId="saidBy"
@@ -102,7 +120,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 isClearable={true}
                 isSearchable={true}
                 styles={customSelectStyles}
-                onChange={(value, _) => setSaidBy(value.value)}
+                onChange={(value, _) => setSaidBy(value?.value)}
                 options={persons.map((person) => ({
                     label: person.name,
                     value: person.name,
@@ -113,7 +131,9 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                     Lukk
                 </CancelModalButton>
                 <AddModalButton
-                    onClick={() =>
+                    disabled={!saidBy || !quote || quote === ''}
+                    onClick={() => {
+                        if (!saidBy || !quote || quote === '') return;
                         query(
                             `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { text, saidBy, date } }`
                         ).then((res) => {
@@ -124,8 +144,8 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                                 ]);
                             }
                             setShow(false);
-                        })
-                    }>
+                        });
+                    }}>
                     Lagre
                 </AddModalButton>
             </ButtonContainer>

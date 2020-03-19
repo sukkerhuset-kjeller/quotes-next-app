@@ -15,6 +15,8 @@ const Container = styled.div`
     align-items: center;
 `;
 
+const appName = 'Sukkerhuset Quotes';
+
 const Home = () => {
     const [quotes, setQuotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -22,13 +24,13 @@ const Home = () => {
     return (
         <Container>
             <Head>
-                <title>Sukkerhuset Sitater</title>
+                <title>{appName}</title>
                 <link rel="icon" href="/favicon.ico" />
                 <link
                     href="https://fonts.googleapis.com/css?family=Montserrat:400,500i,600,700&display=swap"
                     rel="stylesheet"></link>
             </Head>
-            <Header></Header>
+            <Header title={appName}></Header>
             <CardList quotes={quotes} setQuotes={setQuotes} />
             <AddButton
                 onClick={() => {
