@@ -7,13 +7,18 @@ const Button = styled.button`
     font-weight: 600;
     text-transform: uppercase;
     border: none;
-    border-radius: 3.5rem;
+    border-radius: 3.25rem;
     width: 100%;
-    height: 3.5rem;
+    height: 3.25rem;
     display: flex;
     align-tiems: center;
     justify-content: center;
     box-shadow: 0px 1px 2px 0px #0000001a;
+    outline: none;
+
+    &:active {
+        box-shadow: 0px 0px 0px 2px #2684ff;
+    }
 `;
 
 export default Button;

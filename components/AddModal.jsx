@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Select from 'react-select';
+import Select from 'react-select/creatable';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { query } from '../lib/api-lib';
@@ -61,8 +61,19 @@ const TextField = styled.input`
     }
 `;
 
+const ButtonContainer = styled.div`
+    display: flex;
+`;
+
+const CancelModalButton = styled(Button)`
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+    background-color: #9599b3;
+`;
+
 const AddModalButton = styled(Button)`
     margin-top: 1rem;
+    margin-left: 0.5rem;
 `;
 
 const AddModal = ({ show, setShow, quotes, setQuotes }) => {
@@ -97,19 +108,27 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                     value: person.id,
                 }))}
             />
-            <AddModalButton
-                onClick={() =>
-                    query(
-                        `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { text, saidBy{name}, date } }`
-                    ).then((res) => {
-                        if (res?.data?.addQuote) {
-                            setQuotes([{ ...res.data.addQuote }, ...quotes]);
-                        }
-                        setShow(false);
-                    })
-                }>
-                Lagre
-            </AddModalButton>
+            <ButtonContainer>
+                <CancelModalButton onClick={() => setShow(false)}>
+                    Lukk
+                </CancelModalButton>
+                <AddModalButton
+                    onClick={() =>
+                        query(
+                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}", date: "${new Date().getTime()}" }) { text, saidBy{name}, date } }`
+                        ).then((res) => {
+                            if (res?.data?.addQuote) {
+                                setQuotes([
+                                    { ...res.data.addQuote },
+                                    ...quotes,
+                                ]);
+                            }
+                            setShow(false);
+                        })
+                    }>
+                    Lagre
+                </AddModalButton>
+            </ButtonContainer>
         </StyledModal>
     );
 };
