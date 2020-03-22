@@ -1,4 +1,4 @@
-import { formatDistance, isThisWeek, isDate, format } from 'date-fns';
+import { formatDistance, differenceInDays, isDate, format } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled from 'styled-components';
 
@@ -42,9 +42,10 @@ const CardAuthor = styled.p`
 `;
 
 const formatDate = (date) => {
+    const now = new Date();
     if (!isDate(date)) return 'Ugyldig dato';
-    if (isThisWeek(date)) {
-        return formatDistance(date, new Date(), { locale: nb }) + ' siden';
+    if (differenceInDays(date, now) < 7) {
+        return formatDistance(date, now, { locale: nb }) + ' siden';
     }
     return format(date, 'd. MMMM yyyy', { locale: nb });
 };
