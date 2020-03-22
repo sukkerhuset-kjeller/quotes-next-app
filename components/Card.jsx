@@ -1,4 +1,4 @@
-import { formatDistance } from 'date-fns';
+import { formatDistance, isThisWeek, isDate, format } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled from 'styled-components';
 
@@ -41,15 +41,18 @@ const CardAuthor = styled.p`
     opacity: 0.48;
 `;
 
+const formatDate = (date) => {
+    if (!isDate(date)) return 'Ugyldig dato';
+    if (isThisWeek(date)) {
+        return formatDistance(date, new Date(), { locale: nb }) + ' siden';
+    }
+    return format(date, 'd. MMMM yyyy', { locale: nb });
+};
+
 const Card = ({ text, saidBy, date, ...props }) => {
     return (
         <CardContainer {...props}>
-            <CardDate>
-                {formatDistance(new Date(Number(date)), new Date(), {
-                    locale: nb,
-                })}{' '}
-                siden
-            </CardDate>
+            <CardDate>{formatDate(new Date(Number(date)))}</CardDate>
             <CardQuote>{text}</CardQuote>
             <CardAuthor>{saidBy}</CardAuthor>
         </CardContainer>
