@@ -11,10 +11,10 @@ const CardContainer = styled.div`
     &:nth-child(3n + 1) {
         background-color: #d47fa6;
     }
-    &:nth-child(3n + 3) {
+    &:nth-child(3n + 2) {
         background-color: #8a56ac;
     }
-    &:nth-child(3n + 2) {
+    &:nth-child(3n + 3) {
         background-color: #241332;
     }
 `;

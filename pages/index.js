@@ -17,8 +17,8 @@ const Container = styled.div`
 
 const appName = 'Sukkerhuset Quotes';
 
-const Home = () => {
-    const [quotes, setQuotes] = useState([]);
+const Home = ({ initialQuotes }) => {
+    const [quotes, setQuotes] = useState([...initialQuotes]);
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -58,6 +58,27 @@ const Home = () => {
             `}</style>
         </Container>
     );
+};
+
+Home.getInitialProps = async function(context) {
+    const apiUrl = process.browser
+        ? `http://${window.location.host}/api/graphql`
+        : `http://${context.req.headers.host}/api/graphql`;
+
+    const query = `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy, date } }`;
+
+    const data = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            query: query,
+        }),
+    });
+
+    const json = await data?.json();
+    const quotes = json?.data?.quotes || [];
+
+    return { initialQuotes: quotes };
 };
 
 export default Home;
