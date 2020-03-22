@@ -44,7 +44,7 @@ const CardAuthor = styled.p`
 const formatDate = (date) => {
     const now = new Date();
     if (!isDate(date)) return 'Ugyldig dato';
-    if (differenceInDays(date, now) < 7) {
+    if (differenceInDays(now, date) < 7) {
         return formatDistance(date, now, { locale: nb }) + ' siden';
     }
     return format(date, 'd. MMMM yyyy', { locale: nb });
