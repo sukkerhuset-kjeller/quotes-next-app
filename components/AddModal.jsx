@@ -121,6 +121,8 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 isSearchable={true}
                 styles={customSelectStyles}
                 onChange={(value, _) => setSaidBy(value?.value)}
+                formatCreateLabel={(inputValue) => `Legg til "${inputValue}"`}
+                noOptionsMessage={() => 'Ingen alternativer'}
                 options={persons.map((person) => ({
                     label: person.name,
                     value: person.name,
