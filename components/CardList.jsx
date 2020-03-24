@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useInfiniteScroll } from 'react-infinite-scroll-hook';
 import debounce from 'lodash.debounce';
@@ -17,21 +17,9 @@ const CardListWrapper = styled.div`
     margin-top: 64px;
 `;
 
-const Loader = styled.div`
-    margin: 0 auto;
-    text-align: center;
-`;
-
-const RefreshText = styled.p`
-    padding: 1rem;
-    margin: 0 auto;
-    margin-top: -3rem;
-    text-align: center;
-`;
-
 const CardList = ({ quotes, setQuotes }) => {
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [hasNextPage, setHasNextPage] = useState(true);
 
     const loadQuotes = debounce(() => {

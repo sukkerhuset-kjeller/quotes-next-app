@@ -48,8 +48,8 @@ ReactModal.setAppElement('#__next');
 const customSelectStyles = {};
 
 const Title = styled.h2`
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 400;
     margin-top: 0;
 `;
 

@@ -1,4 +1,4 @@
-import { formatDistance } from 'date-fns';
+import { formatDistance, differenceInDays, isDate, format } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled from 'styled-components';
 
@@ -11,10 +11,10 @@ const CardContainer = styled.div`
     &:nth-child(3n + 1) {
         background-color: #d47fa6;
     }
-    &:nth-child(3n + 3) {
+    &:nth-child(3n + 2) {
         background-color: #8a56ac;
     }
-    &:nth-child(3n + 2) {
+    &:nth-child(3n + 3) {
         background-color: #241332;
     }
 `;
@@ -41,15 +41,19 @@ const CardAuthor = styled.p`
     opacity: 0.48;
 `;
 
+const formatDate = (date) => {
+    const now = new Date();
+    if (!isDate(date)) return 'Ugyldig dato';
+    if (differenceInDays(now, date) < 7) {
+        return formatDistance(date, now, { locale: nb }) + ' siden';
+    }
+    return format(date, 'd. MMMM yyyy', { locale: nb });
+};
+
 const Card = ({ text, saidBy, date, ...props }) => {
     return (
         <CardContainer {...props}>
-            <CardDate>
-                {formatDistance(new Date(Number(date)), new Date(), {
-                    locale: nb,
-                })}{' '}
-                siden
-            </CardDate>
+            <CardDate>{formatDate(new Date(Number(date)))}</CardDate>
             <CardQuote>{text}</CardQuote>
             <CardAuthor>{saidBy}</CardAuthor>
         </CardContainer>
