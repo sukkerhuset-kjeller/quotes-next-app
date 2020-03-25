@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const appName = 'Sukkerhuset Quotes';
 
-const Home = ({ initialQuotes }) => {
+const Home = ({ initialQuotes, initialPage }) => {
     const [quotes, setQuotes] = useState([...initialQuotes]);
     const [showModal, setShowModal] = useState(false);
 
@@ -31,7 +31,11 @@ const Home = ({ initialQuotes }) => {
                     rel="stylesheet"></link>
             </Head>
             <Header title={appName}></Header>
-            <CardList quotes={quotes} setQuotes={setQuotes} />
+            <CardList
+                quotes={quotes}
+                setQuotes={setQuotes}
+                initialPage={initialPage}
+            />
             <AddButton
                 onClick={() => {
                     setShowModal(true);
@@ -77,8 +81,9 @@ Home.getInitialProps = async function(context) {
 
     const json = await data?.json();
     const quotes = json?.data?.quotes || [];
+    const page = quotes.length > 0 ? 1 : 0;
 
-    return { initialQuotes: quotes };
+    return { initialQuotes: quotes, initialPage: page };
 };
 
 export default Home;

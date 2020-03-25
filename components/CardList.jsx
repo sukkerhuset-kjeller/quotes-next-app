@@ -17,9 +17,9 @@ const CardListWrapper = styled.div`
     margin-top: 64px;
 `;
 
-const CardList = ({ quotes, setQuotes }) => {
+const CardList = ({ quotes, setQuotes, initialPage }) => {
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(initialPage);
     const [hasNextPage, setHasNextPage] = useState(true);
 
     const loadQuotes = debounce(() => {
