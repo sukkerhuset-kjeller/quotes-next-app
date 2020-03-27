@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
 
+export const themes = [
+    { value: 'purple', label: 'Lilla' },
+    { value: 'green', label: 'Grønn' },
+    { value: 'blue', label: 'Blå' },
+    { value: 'windows', label: 'Windows' },
+];
+
 export const useTheme = () => {
     const [theme, setTheme] = useState('purple');
     const changeTheme = (val) => {
@@ -7,6 +14,7 @@ export const useTheme = () => {
             case 'purple':
             case 'green':
             case 'blue':
+            case 'windows':
                 window.localStorage.setItem('theme', val);
                 setTheme(val);
                 break;
@@ -33,6 +41,10 @@ export const getTheme = (theme) => {
             return greenTheme;
         case 'blue':
             return blueTheme;
+        case 'windows':
+            return windowsTheme;
+        default:
+            return purpleTheme;
     }
 };
 
@@ -55,4 +67,11 @@ export const blueTheme = {
     text: '#ffffff',
     cardColors: ['#4EBDEF', '#4666E5', '#132641'],
     button: '#4666E5',
+};
+
+export const windowsTheme = {
+    header: '#231F20',
+    text: '#ffffff',
+    cardColors: ['#F8682C', '#91C300', '#00B4F1', '#FFC300'],
+    button: '#00B4F1',
 };
