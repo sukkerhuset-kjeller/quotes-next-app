@@ -4,7 +4,7 @@ import { useInfiniteScroll } from 'react-infinite-scroll-hook';
 import debounce from 'lodash.debounce';
 import PullToRefresh from 'react-simple-pull-to-refresh';
 
-import { query } from '../lib/api-lib';
+import { queryQuotes } from '../util/api-lib';
 
 import Card from './Card';
 
@@ -24,9 +24,7 @@ const CardList = ({ quotes, setQuotes, initialPage }) => {
 
     const loadQuotes = debounce(() => {
         setLoading(true);
-        query(
-            `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
-        )
+        queryQuotes(page)
             .then((res) => {
                 setLoading(false);
                 const data = res?.data?.quotes;
@@ -45,9 +43,7 @@ const CardList = ({ quotes, setQuotes, initialPage }) => {
 
     const handleRefresh = () => {
         setHasNextPage(true);
-        query(
-            `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
-        )
+        queryQuotes(0)
             .then((res) => {
                 const data = res?.data?.quotes;
                 if (data?.length < 10) setHasMore(false);

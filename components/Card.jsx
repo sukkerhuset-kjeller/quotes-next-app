@@ -1,22 +1,29 @@
 import { formatDistance, differenceInDays, isDate, format } from 'date-fns';
 import { nb } from 'date-fns/locale';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const cardColors = (colors) => {
+    let styles = '';
+    for (const [index, color] of colors.entries()) {
+        styles += `
+        &:nth-child(${colors.length}n + ${index}) {
+            background-color: ${color};
+        }
+        `;
+    }
+    return css`
+        ${styles}
+    `;
+};
 
 const CardContainer = styled.div`
     margin-top: -80px;
     padding: calc(2rem + 80px) 3rem 2rem 3rem;
-    color: #ffffff;
+    color: ${({ theme }) => theme.text};
     border-radius: 0 0 0 80px;
+    transition: all 200ms ease-in-out;
 
-    &:nth-child(3n + 1) {
-        background-color: #d47fa6;
-    }
-    &:nth-child(3n + 2) {
-        background-color: #8a56ac;
-    }
-    &:nth-child(3n + 3) {
-        background-color: #241332;
-    }
+    ${({ theme }) => cardColors(theme.cardColors)};
 `;
 
 const CardDate = styled.p`

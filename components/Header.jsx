@@ -1,29 +1,48 @@
+import Link from 'next/link';
 import styled from 'styled-components';
+
+import { appName } from '../util/vars';
 
 const HeaderContainer = styled.div`
     position: fixed;
     width: 100%;
     height: 60px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     justify-content: center;
     align-items: center;
     background: #ffffff;
-    color: #1c1e21;
+    color: ${({ theme }) => theme.header};
     z-index: 4000000;
     box-shadow: 0px 1px 3px 0px #0000001a;
+    padding: 0 1rem;
 `;
 
-const Title = styled.h1`
+const SettingsLink = styled.a`
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const TitleLink = styled.h1`
     font-size: 1.625rem;
     font-weight: 400;
     text-align: center;
     margin: 0;
+    cursor: pointer;
 `;
 
-const Header = ({ title }) => {
+const Header = () => {
     return (
         <HeaderContainer>
-            <Title>{title}</Title>
+            <Link href="/settings">
+                <SettingsLink>
+                    <img src="/icons-setting.svg" alt="Instillinger" />
+                </SettingsLink>
+            </Link>
+            <Link href="/">
+                <TitleLink>{appName}</TitleLink>
+            </Link>
         </HeaderContainer>
     );
 };

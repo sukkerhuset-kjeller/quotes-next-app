@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select/creatable';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import { query } from '../lib/api-lib';
+import { queryPersons, addQuote } from '../util/api-lib';
 import Button from './Button';
 
 function ReactModalAdapter({ className, modalClassName, ...props }) {
@@ -100,9 +100,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
     const [mounted, setMounted] = useState(true);
 
     useEffect(() => {
-        query(`query { persons { name, id } }`).then(
-            (res) => mounted && setPersons(res?.data?.persons)
-        );
+        queryPersons().then((res) => mounted && setPersons(res?.data?.persons));
         return () => setMounted(false);
     }, []);
 
@@ -136,9 +134,7 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                     disabled={!saidBy || !quote || quote === ''}
                     onClick={() => {
                         if (!saidBy || !quote || quote === '') return;
-                        query(
-                            `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { text, saidBy, date } }`
-                        ).then((res) => {
+                        addQuote(quote, saidBy).then((res) => {
                             if (res?.data?.addQuote) {
                                 setQuotes([
                                     { ...res.data.addQuote },
