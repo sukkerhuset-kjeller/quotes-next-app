@@ -1,27 +1,15 @@
 import { useEffect, useState } from 'react';
 
-export const themes = [
-    { value: 'purple', label: 'Lilla' },
-    { value: 'green', label: 'Grønn' },
-    { value: 'blue', label: 'Blå' },
-    { value: 'windows', label: 'Windows' },
-];
-
 export const useTheme = () => {
     const [theme, setTheme] = useState('purple');
+
     const changeTheme = (val) => {
-        switch (val) {
-            case 'purple':
-            case 'green':
-            case 'blue':
-            case 'windows':
-                window.localStorage.setItem('theme', val);
-                setTheme(val);
-                break;
-            default:
-                window.localStorage.setItem('theme', 'purple');
-                setTheme('purple');
-                break;
+        if (val) {
+            window.localStorage.setItem('theme', val);
+            setTheme(val);
+        } else {
+            window.localStorage.setItem('theme', 'purple');
+            setTheme('purple');
         }
     };
 
@@ -32,6 +20,13 @@ export const useTheme = () => {
 
     return [theme, changeTheme];
 };
+
+export const themes = [
+    { value: 'purple', label: 'Lilla' },
+    { value: 'green', label: 'Grønn' },
+    { value: 'blue', label: 'Blå' },
+    { value: 'windows', label: 'Windows' },
+];
 
 export const getTheme = (theme) => {
     switch (theme) {
@@ -49,28 +44,36 @@ export const getTheme = (theme) => {
 };
 
 export const purpleTheme = {
+    bodyBackground: '#dedce0',
     header: '#1c1e21',
+    headerBackground: '#ffffff',
     text: '#ffffff',
     cardColors: ['#d47fa6', '#8a56ac', '#241332'],
     button: '#8a56ac',
 };
 
 export const greenTheme = {
+    bodyBackground: '#dedce0',
     header: '#1c1e21',
+    headerBackground: '#ffffff',
     text: '#ffffff',
     cardColors: ['#B4C55B', '#52912E', '#253E12'],
     button: '#52912E',
 };
 
 export const blueTheme = {
+    bodyBackground: '#dedce0',
     header: '#1c1e21',
+    headerBackground: '#ffffff',
     text: '#ffffff',
     cardColors: ['#4EBDEF', '#4666E5', '#132641'],
     button: '#4666E5',
 };
 
 export const windowsTheme = {
-    header: '#231F20',
+    bodyBackground: '#231F20',
+    header: '#ffffff',
+    headerBackground: '#231F20',
     text: '#ffffff',
     cardColors: ['#F8682C', '#91C300', '#00B4F1', '#FFC300'],
     button: '#00B4F1',

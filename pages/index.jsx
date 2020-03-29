@@ -1,28 +1,17 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 import { appName } from '../util/vars';
 import { queryQuotes } from '../util/api-lib';
 import { useTheme, getTheme } from '../util/themes';
+import { GlobalStyle } from '../util/globalStyle';
 
 import Container from '../components/Container';
 import Header from '../components/Header';
 import CardList from '../components/CardList';
 import AddButton from '../components/AddButton';
 import AddModal from '../components/AddModal';
-
-const GlobalStyle = createGlobalStyle`
-  html, body {
-    padding: 0;
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: #dedce0;
-  }
-  * {
-        box-sizing: border-box;
-    }
-`;
 
 const Home = ({ initialQuotes, initialPage }) => {
     const [quotes, setQuotes] = useState([...initialQuotes]);

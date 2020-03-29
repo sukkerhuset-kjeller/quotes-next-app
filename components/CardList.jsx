@@ -14,7 +14,6 @@ const CardListWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    margin-top: 64px;
 `;
 
 const CardList = ({ quotes, setQuotes, initialPage }) => {

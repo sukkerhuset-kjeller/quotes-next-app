@@ -1,25 +1,13 @@
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
 import Select from 'react-select';
 
 import { appName } from '../util/vars';
 import { useTheme, getTheme, themes } from '../util/themes';
+import { GlobalStyle } from '../util/globalStyle';
 
 import Container from '../components/Container';
 import Header from '../components/Header';
-import Button from '../components/Button';
-
-const GlobalStyle = createGlobalStyle`
-  html, body {
-    padding: 0;
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: #dedce0;
-  }
-  * {
-        box-sizing: border-box;
-    }
-`;
 
 const Wrapper = styled.div`
     margin-top: 60px;
@@ -44,6 +32,7 @@ const Settings = () => {
                 </Head>
                 <Header />
                 <Wrapper>
+                    <p>Tema</p>
                     <Select
                         placeholder="Velg tema"
                         options={themes}
