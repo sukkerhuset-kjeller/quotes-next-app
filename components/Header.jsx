@@ -18,6 +18,21 @@ const Title = styled.h1`
     font-weight: 400;
     text-align: center;
     margin: 0;
+    position: relative;
+
+    &::after {
+        content: 'BETA';
+        display: block;
+        position: absolute;
+        background: #d47fa6;
+        color: #ffffff;
+        font-size: 0.75rem;
+        right: -0.5rem;
+        bottom: 0;
+        transform: translateX(100%);
+        padding: 2px 0.5rem;
+        border-radius: 6px;
+    }
 `;
 
 const Header = ({ title }) => {
