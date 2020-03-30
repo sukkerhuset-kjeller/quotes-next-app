@@ -1,6 +1,7 @@
 import styled, { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
-import Select from 'react-select';
+import { Select } from '../components/Select';
+import Switch from 'react-switch';
 
 import { appName } from '../util/vars';
 import { useTheme, getTheme, themes } from '../util/themes';
@@ -17,10 +18,10 @@ const Wrapper = styled.div`
 `;
 
 const Settings = () => {
-    const [theme, changeTheme] = useTheme();
+    const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();
 
     return (
-        <ThemeProvider theme={getTheme(theme)}>
+        <ThemeProvider theme={getTheme(theme, isDarkMode)}>
             <GlobalStyle />
             <Container>
                 <Head>
@@ -38,6 +39,13 @@ const Settings = () => {
                         options={themes}
                         value={themes.filter((opt) => opt.value === theme)}
                         onChange={(value, _) => changeTheme(value?.value)}
+                    />
+                    <p>Dark Mode</p>
+                    <Switch
+                        onChange={toggleDarkMode}
+                        checked={isDarkMode}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
                     />
                 </Wrapper>
             </Container>

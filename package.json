@@ -31,11 +31,11 @@
         "raw-loader": "^4.0.0",
         "react": "16.13.0",
         "react-dom": "16.13.0",
-        "react-infinite-scroll-hook": "^2.0.1",
         "react-media-hook": "^0.4.6",
         "react-modal": "^3.11.2",
         "react-select": "^3.0.8",
         "react-simple-pull-to-refresh": "^1.1.2",
+        "react-switch": "^5.0.1",
         "sanitize-html": "^1.22.1",
         "sass": "^1.26.3",
         "styled-components": "^5.0.1"

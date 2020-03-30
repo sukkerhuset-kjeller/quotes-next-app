@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export const useTheme = () => {
     const [theme, setTheme] = useState('purple');
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const changeTheme = (val) => {
         if (val) {
@@ -13,12 +14,24 @@ export const useTheme = () => {
         }
     };
 
+    const toggleDarkMode = () => {
+        if (!isDarkMode) {
+            window.localStorage.setItem('isDarkMode', 'true');
+            setIsDarkMode(true);
+        } else {
+            window.localStorage.setItem('isDarkMode', 'false');
+            setIsDarkMode(false);
+        }
+    };
+
     useEffect(() => {
         const localTheme = window.localStorage.getItem('theme');
         localTheme && setTheme(localTheme);
+        const localIsDarkMode = window.localStorage.getItem('isDarkMode');
+        localIsDarkMode && setIsDarkMode(localIsDarkMode === 'true');
     }, []);
 
-    return [theme, changeTheme];
+    return [theme, changeTheme, isDarkMode, toggleDarkMode];
 };
 
 export const themes = [
@@ -28,53 +41,108 @@ export const themes = [
     { value: 'windows', label: 'Windows' },
 ];
 
-export const getTheme = (theme) => {
+export const getTheme = (theme, isDarkMode) => {
     switch (theme) {
         case 'purple':
-            return purpleTheme;
+            return isDarkMode
+                ? { ..._darkBaseTheme, ..._purpleTheme }
+                : { ..._baseTheme, ..._purpleTheme };
         case 'green':
-            return greenTheme;
+            return isDarkMode
+                ? { ..._darkBaseTheme, ..._greenTheme }
+                : { ..._baseTheme, ..._greenTheme };
         case 'blue':
-            return blueTheme;
+            return isDarkMode
+                ? { ..._darkBaseTheme, ..._blueTheme }
+                : { ..._baseTheme, ..._blueTheme };
         case 'windows':
-            return windowsTheme;
+            return isDarkMode
+                ? { ..._darkBaseTheme, ..._windowsTheme }
+                : { ..._baseTheme, ..._windowsTheme };
         default:
-            return purpleTheme;
+            return isDarkMode
+                ? { ..._darkBaseTheme, ..._purpleTheme }
+                : { ..._baseTheme, ..._purpleTheme };
     }
 };
 
-export const purpleTheme = {
-    bodyBackground: '#dedce0',
-    header: '#1c1e21',
-    headerBackground: '#ffffff',
-    text: '#ffffff',
-    cardColors: ['#d47fa6', '#8a56ac', '#241332'],
-    button: '#8a56ac',
+const _baseTheme = {
+    body: {
+        background: '#dedce0',
+        text: '#1c1e21',
+    },
+    header: {
+        background: '#ffffff',
+        text: '#1c1e21',
+    },
+    button: {
+        primary: {
+            background: '#8a56ac',
+            text: '#ffffff',
+        },
+        secondary: {
+            background: '#9599b3',
+            text: '#ffffff',
+        },
+    },
+    card: {
+        backgrounds: ['#d47fa6', '#8a56ac', '#241332'],
+        text: '#ffffff',
+    },
 };
 
-export const greenTheme = {
-    bodyBackground: '#dedce0',
-    header: '#1c1e21',
-    headerBackground: '#ffffff',
-    text: '#ffffff',
-    cardColors: ['#B4C55B', '#52912E', '#253E12'],
-    button: '#52912E',
+const _darkBaseTheme = {
+    ..._baseTheme,
+    body: {
+        background: '#231F20',
+        text: '#ffffff',
+    },
+    header: {
+        background: '#161213',
+        text: '#ffffff',
+    },
 };
 
-export const blueTheme = {
-    bodyBackground: '#dedce0',
-    header: '#1c1e21',
-    headerBackground: '#ffffff',
-    text: '#ffffff',
-    cardColors: ['#4EBDEF', '#4666E5', '#132641'],
-    button: '#4666E5',
+const _purpleTheme = {};
+
+const _greenTheme = {
+    button: {
+        ..._baseTheme.button,
+        primary: {
+            ..._baseTheme.button.primary,
+            background: '#52912E',
+        },
+    },
+    card: {
+        ..._baseTheme.card,
+        backgrounds: ['#B4C55B', '#52912E', '#253E12'],
+    },
 };
 
-export const windowsTheme = {
-    bodyBackground: '#231F20',
-    header: '#ffffff',
-    headerBackground: '#231F20',
-    text: '#ffffff',
-    cardColors: ['#F8682C', '#91C300', '#00B4F1', '#FFC300'],
-    button: '#00B4F1',
+const _blueTheme = {
+    button: {
+        ..._baseTheme.button,
+        primary: {
+            ..._baseTheme.button.primary,
+            background: '#4666E5',
+        },
+    },
+    card: {
+        ..._baseTheme.card,
+        backgrounds: ['#4EBDEF', '#4666E5', '#132641'],
+    },
+};
+
+const _windowsTheme = {
+    button: {
+        ..._baseTheme.button,
+        primary: {
+            ..._baseTheme.button.primary,
+            background: '#00B4F1',
+        },
+    },
+    card: {
+        ..._baseTheme.card,
+        backgrounds: ['#F8682C', '#91C300', '#00B4F1', '#FFC300'],
+    },
 };

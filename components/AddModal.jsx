@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Select from 'react-select/creatable';
+import { Creatable } from '../components/Select';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { queryPersons, addQuote } from '../util/api-lib';
@@ -20,7 +20,7 @@ const StyledModal = styled(ReactModalAdapter).attrs({
     modalClassName: 'Modal',
 })`
     .Modal {
-        background: #ffffff;
+        background: ${({ theme }) => theme.body.background};
         border-radius: 40px;
         width: calc(100% - 2rem);
         max-width: 500px;
@@ -45,8 +45,6 @@ const StyledModal = styled(ReactModalAdapter).attrs({
 `;
 ReactModal.setAppElement('#__next');
 
-const customSelectStyles = {};
-
 const Title = styled.h2`
     font-size: 1.5rem;
     font-weight: 400;
@@ -57,18 +55,20 @@ const TextField = styled.input`
     border: none;
     width: 100%;
     font-size: 1rem;
-    color: hsl(0, 0%, 50%);
-    border-bottom: 1px solid #dddddd;
+    color: ${({ theme }) => theme.body.text};
+    background: transparent;
+    border-bottom: 1px solid ${({ theme }) => theme.body.text};
     margin-bottom: 1rem;
     padding: 0.5rem 10px;
     outline: none;
 
     &:focus {
-        box-shadow: 0px 0px 0px 2px #2684ff;
+        box-shadow: 0px 0px 0px 2px
+            ${({ theme }) => theme.button.primary.background};
     }
 
     &::placeholder {
-        color: hsl(0, 0%, 50%);
+        color: ${({ theme }) => theme.body.text};
         font-family: 'Montserrat', sans-serif;
     }
 `;
@@ -80,7 +80,8 @@ const ButtonContainer = styled.div`
 const CancelModalButton = styled(Button)`
     margin-top: 1rem;
     margin-right: 0.5rem;
-    background-color: #9599b3;
+    background-color: ${({ theme }) => theme.button.secondary.background};
+    color: ${({ theme }) => theme.button.secondary.text};
 `;
 
 const AddModalButton = styled(Button)`
@@ -112,12 +113,11 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                 placeholder="Quote"
                 onChange={(e) => setQuote(e?.target?.value)}
             />
-            <Select
+            <Creatable
                 instanceId="saidBy"
                 placeholder="Sagt av"
                 isClearable={true}
                 isSearchable={true}
-                styles={customSelectStyles}
                 onChange={(value, _) => setSaidBy(value?.value)}
                 formatCreateLabel={(inputValue) => `Legg til "${inputValue}"`}
                 noOptionsMessage={() => 'Ingen alternativer'}

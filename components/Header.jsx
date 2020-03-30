@@ -8,16 +8,16 @@ import { appName, shortAppName } from '../util/vars';
 import SettingsIcon from '../public/icons-setting.svg';
 
 const HeaderContainer = styled.div`
-    position: sticky;
+    position: fixed;
     top: 0;
     width: 100%;
     height: 60px;
     display: grid;
-    grid-template-columns: auto 2fr auto;
-    justify-content: center;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
     align-items: center;
-    background: ${({ theme }) => theme.headerBackground};
-    color: ${({ theme }) => theme.header};
+    background: ${({ theme }) => theme.header.background};
+    color: ${({ theme }) => theme.header.text};
     z-index: 4000000;
     box-shadow: 0px 1px 3px 0px #0000001a;
     padding: 0 1rem;
@@ -31,7 +31,7 @@ const SettingsLink = styled.a`
 
 const StyledSettingsIcon = styled(SettingsIcon)`
     .icons-setting_svg__shape {
-        stroke: ${({ theme }) => theme.header};
+        stroke: ${({ theme }) => theme.header.text};
     }
 `;
 
@@ -39,8 +39,23 @@ const TitleLink = styled.h1`
     font-size: 1.625rem;
     font-weight: 400;
     text-align: center;
+    position: relative;
     margin: 0;
     cursor: pointer;
+
+    &::after {
+        content: 'BETA';
+        display: block;
+        position: absolute;
+        background: ${({ theme }) => theme.button.primary.background};
+        color: ${({ theme }) => theme.button.primary.text};
+        font-size: 0.75rem;
+        right: -0.5rem;
+        bottom: 0;
+        transform: translateX(100%);
+        padding: 2px 0.5rem;
+        border-radius: 6px;
+    }
 `;
 
 const Header = () => {

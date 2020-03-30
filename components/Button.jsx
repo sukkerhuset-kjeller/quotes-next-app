@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-    background: ${({ theme }) => theme.button};
-    color: ${({ theme }) => theme.text};
+    background: ${({ theme }) => theme.button.primary.background};
+    color: ${({ theme }) => theme.button.primary.text};
     font-size: 0.875rem;
     font-weight: 600;
     text-transform: uppercase;

@@ -16,10 +16,10 @@ import AddModal from '../components/AddModal';
 const Home = ({ initialQuotes, initialPage }) => {
     const [quotes, setQuotes] = useState([...initialQuotes]);
     const [showModal, setShowModal] = useState(false);
-    const [theme, changeTheme] = useTheme();
+    const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();
 
     return (
-        <ThemeProvider theme={getTheme(theme)}>
+        <ThemeProvider theme={getTheme(theme, isDarkMode)}>
             <GlobalStyle />
             <Container>
                 <Head>
@@ -38,9 +38,7 @@ const Home = ({ initialQuotes, initialPage }) => {
                 <AddButton
                     onClick={() => {
                         setShowModal(true);
-                    }}>
-                    <img src="/icon-add.svg" alt="" />
-                </AddButton>
+                    }}></AddButton>
                 <AddModal
                     show={showModal}
                     setShow={setShowModal}

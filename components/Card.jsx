@@ -19,11 +19,11 @@ const cardColors = (colors) => {
 const CardContainer = styled.div`
     margin-top: -80px;
     padding: calc(2rem + 80px) 3rem 2rem 3rem;
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.card.text};
     border-radius: 0 0 0 80px;
     transition: all 200ms ease-in-out;
 
-    ${({ theme }) => cardColors(theme.cardColors)};
+    ${({ theme }) => cardColors(theme.card.backgrounds)};
 `;
 
 const CardDate = styled.p`
