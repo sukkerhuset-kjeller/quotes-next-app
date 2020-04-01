@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
+import AddIcon from '../public/icon-add.svg';
+
 const AddButton = styled.button`
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    background: #ffffff;
+    background: ${({ theme }) => theme.header.background};
+    color: ${({ theme }) => theme.header.text};
     border: none;
     border-radius: 50%;
     width: 3.5rem;
@@ -19,7 +22,7 @@ const AddButton = styled.button`
     transition: all 0.1s ease-in-out;
 
     &:hover {
-        background: #efefef;
+        transform: scale(1.05);
         box-shadow: 0 2px 2px #0000001a, 0 8px 16px #0000001a;
     }
 
@@ -28,4 +31,14 @@ const AddButton = styled.button`
     }
 `;
 
-export default AddButton;
+const StyledAddIcon = styled(AddIcon)`
+    .icon-add_svg__shape {
+        fill: ${({ theme }) => theme.header.text};
+    }
+`;
+
+export default (props) => (
+    <AddButton {...props}>
+        <StyledAddIcon />
+    </AddButton>
+);

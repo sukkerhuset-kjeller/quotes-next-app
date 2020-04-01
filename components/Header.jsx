@@ -1,31 +1,54 @@
+import Link from 'next/link';
 import styled from 'styled-components';
+import { useMediaPredicate } from 'react-media-hook';
+import { useRouter } from 'next/router';
+
+import { appName, shortAppName } from '../util/vars';
+
+import SettingsIcon from '../public/icons-setting.svg';
 
 const HeaderContainer = styled.div`
     position: fixed;
+    top: 0;
     width: 100%;
     height: 60px;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
     align-items: center;
-    background: #ffffff;
-    color: #1c1e21;
+    background: ${({ theme }) => theme.header.background};
+    color: ${({ theme }) => theme.header.text};
     z-index: 4000000;
     box-shadow: 0px 1px 3px 0px #0000001a;
+    padding: 0 1rem;
 `;
 
-const Title = styled.h1`
+const SettingsLink = styled.a`
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const StyledSettingsIcon = styled(SettingsIcon)`
+    .icons-setting_svg__shape {
+        stroke: ${({ theme }) => theme.header.text};
+    }
+`;
+
+const TitleLink = styled.h1`
     font-size: 1.625rem;
     font-weight: 400;
     text-align: center;
-    margin: 0;
     position: relative;
+    margin: 0;
+    cursor: pointer;
 
     &::after {
         content: 'BETA';
         display: block;
         position: absolute;
-        background: #d47fa6;
-        color: #ffffff;
+        background: ${({ theme }) => theme.button.primary.background};
+        color: ${({ theme }) => theme.button.primary.text};
         font-size: 0.75rem;
         right: -0.5rem;
         bottom: 0;
@@ -35,10 +58,20 @@ const Title = styled.h1`
     }
 `;
 
-const Header = ({ title }) => {
+const Header = () => {
+    const router = useRouter();
+    const smallerThan500 = useMediaPredicate('(max-width: 500px)');
+
     return (
         <HeaderContainer>
-            <Title>{title}</Title>
+            <Link href={router.pathname === '/settings' ? '/' : '/settings'}>
+                <SettingsLink>
+                    <StyledSettingsIcon />
+                </SettingsLink>
+            </Link>
+            <Link href="/">
+                <TitleLink>{smallerThan500 ? shortAppName : appName}</TitleLink>
+            </Link>
         </HeaderContainer>
     );
 };

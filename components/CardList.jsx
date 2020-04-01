@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useInfiniteScroll } from 'react-infinite-scroll-hook';
 import debounce from 'lodash.debounce';
-import PullToRefresh from 'react-simple-pull-to-refresh';
+import SimplePullToRefresh from 'react-simple-pull-to-refresh';
 
-import { query } from '../lib/api-lib';
+import { queryQuotes } from '../util/api-lib';
 
 import Card from './Card';
+
+const PullToRefresh = styled(SimplePullToRefresh)`
+    .lds-ellipsis {
+        div {
+            background: ${({ theme }) => theme.body.text};
+        }
+    }
+`;
 
 const CardListWrapper = styled.div`
     max-width: 500px;
@@ -14,7 +21,7 @@ const CardListWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    margin-top: 64px;
+    overflow: hidden;
 `;
 
 const CardList = ({ quotes, setQuotes, initialPage }) => {
@@ -24,9 +31,7 @@ const CardList = ({ quotes, setQuotes, initialPage }) => {
 
     const loadQuotes = debounce(() => {
         setLoading(true);
-        query(
-            `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
-        )
+        queryQuotes(page)
             .then((res) => {
                 setLoading(false);
                 const data = res?.data?.quotes;
@@ -45,9 +50,8 @@ const CardList = ({ quotes, setQuotes, initialPage }) => {
 
     const handleRefresh = () => {
         setHasNextPage(true);
-        query(
-            `query { quotes(amount: 10, page: 0, sort: { field: "date", ascending: false }) { text, saidBy, date } }`
-        )
+        setPage(0);
+        queryQuotes(0)
             .then((res) => {
                 const data = res?.data?.quotes;
                 if (data?.length < 10) setHasMore(false);
@@ -58,15 +62,13 @@ const CardList = ({ quotes, setQuotes, initialPage }) => {
             });
     };
 
-    const infiniteRef = useInfiniteScroll({
-        loading,
-        hasNextPage,
-        onLoadMore: loadQuotes,
-    });
-
     return (
-        <PullToRefresh onRefresh={handleRefresh}>
-            <CardListWrapper ref={infiniteRef}>
+        <PullToRefresh
+            onRefresh={handleRefresh}
+            canFetchMore={hasNextPage}
+            onFetchMore={loadQuotes}
+            pullingContent={<></>}>
+            <CardListWrapper>
                 {quotes.map((entry, index) => (
                     <Card
                         style={{ zIndex: quotes.length - index }}

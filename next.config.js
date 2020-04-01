@@ -11,6 +11,13 @@ module.exports = {
             test: /\.gql$/i,
             use: ['raw-loader'],
         });
+        config.module.rules.push({
+            test: /\.svg$/,
+            issuer: {
+                test: /\.(js|ts)x?$/,
+            },
+            use: ['@svgr/webpack'],
+        });
         return config;
     },
 };
