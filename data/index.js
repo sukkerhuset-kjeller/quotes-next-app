@@ -35,6 +35,13 @@ export default () => {
                 }
                 return getPersons(name);
             },
+            validSession: (parent, args, context) => {
+                console.log(context?.userSession);
+                if (context?.userSession && context?.userSession !== 'id') {
+                    return true;
+                }
+                return false;
+            },
         },
         Mutation: {
             addQuote: (parent, { input }, context) => {

@@ -18,6 +18,8 @@ const apolloServer = new ApolloServer({
     context: async ({ req }) => {
         const cookie = req?.headers?.cookie;
         let sessionId = req.headers.authentication;
+        console.log(cookie);
+        console.log(sessionId);
         if (cookie) {
             const cookieSuggestions = cookie
                 .split(';')
