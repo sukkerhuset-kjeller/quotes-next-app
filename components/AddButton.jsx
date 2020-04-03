@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import AddIcon from '../public/icon-add.svg';
+import AddIcon from '../public/icons/add.svg';
 
 const AddButton = styled.button`
     position: fixed;
@@ -32,7 +32,7 @@ const AddButton = styled.button`
 `;
 
 const StyledAddIcon = styled(AddIcon)`
-    .icon-add_svg__shape {
+    .add_svg__shape {
         fill: ${({ theme }) => theme.header.text};
     }
 `;

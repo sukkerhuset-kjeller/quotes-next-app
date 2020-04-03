@@ -1,6 +1,14 @@
-import { formatDistance, differenceInDays, isDate, format } from 'date-fns';
+import {
+    formatDistance,
+    differenceInDays,
+    isDate,
+    format,
+    isFuture,
+} from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled, { css } from 'styled-components';
+
+import Like from '../components/Like';
 
 const cardColors = (colors) => {
     let styles = '';
@@ -40,6 +48,12 @@ const CardQuote = styled.p`
     margin: 0.5rem 0;
 `;
 
+const CardFooter = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const CardAuthor = styled.p`
     font-size: 0.75rem;
     font-weight: 500;
@@ -51,18 +65,24 @@ const CardAuthor = styled.p`
 const formatDate = (date) => {
     const now = new Date();
     if (!isDate(date)) return 'Ugyldig dato';
-    if (differenceInDays(now, date) < 7) {
+    if (isFuture(date) && differenceInDays(now, date) < 7) {
         return formatDistance(date, now, { locale: nb }) + ' siden';
     }
     return format(date, 'd. MMMM yyyy', { locale: nb });
 };
 
-const Card = ({ text, saidBy, date, ...props }) => {
+const Card = ({
+    content: { id, text, saidBy, date, likes, hasLiked },
+    ...props
+}) => {
     return (
         <CardContainer {...props}>
             <CardDate>{formatDate(new Date(Number(date)))}</CardDate>
             <CardQuote>{text}</CardQuote>
-            <CardAuthor>{saidBy}</CardAuthor>
+            <CardFooter>
+                <CardAuthor>{saidBy}</CardAuthor>
+                <Like id={id} defaultValue={hasLiked} />
+            </CardFooter>
         </CardContainer>
     );
 };

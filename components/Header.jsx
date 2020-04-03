@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { appName, shortAppName } from '../util/vars';
 
-import SettingsIcon from '../public/icons-setting.svg';
+import SettingsIcon from '../public/icons/setting.svg';
 
 const HeaderContainer = styled.div`
     position: fixed;
@@ -30,7 +30,7 @@ const SettingsLink = styled.a`
 `;
 
 const StyledSettingsIcon = styled(SettingsIcon)`
-    .icons-setting_svg__shape {
+    .setting_svg__shape {
         stroke: ${({ theme }) => theme.header.text};
     }
 `;

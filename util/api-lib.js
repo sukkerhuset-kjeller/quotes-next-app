@@ -26,23 +26,6 @@ const query = async (query, context) => {
     return data;
 };
 
-export const queryQuotes = async (page, context) => {
-    return await query(
-        `query { quotes(amount: 20, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`,
-        context
-    );
-};
-
-export const addQuote = async (quote, saidBy) => {
-    return await query(
-        `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { text, saidBy, date } }`
-    );
-};
-
-export const queryPersons = async () => {
-    return await query(`query { persons { name, id } }`);
-};
-
 export const login = async (username, password) => {
     const res = await query(
         `mutation { login ( username: "${username}", password: "${password}" ) }`
@@ -54,4 +37,27 @@ export const login = async (username, password) => {
         cookies.set('session_id', res.data.login);
         return true;
     }
+};
+
+export const queryQuotes = async (page, context) => {
+    return await query(
+        `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { id, text, saidBy, date, likes, hasLiked } }`,
+        context
+    );
+};
+
+export const addQuote = async (quote, saidBy) => {
+    return await query(
+        `mutation { addQuote(input: { text: "${quote}", saidBy: "${saidBy}" }) { id, text, saidBy, date, likes, hasLiked } }`
+    );
+};
+
+export const queryPersons = async () => {
+    return await query(`query { persons { name, id } }`);
+};
+
+export const likeQuote = async (id, revert) => {
+    return await query(
+        `mutation { likeQuote ( id: "${id}", revert: ${revert} ) }`
+    );
 };
