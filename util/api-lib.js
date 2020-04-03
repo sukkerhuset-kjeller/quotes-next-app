@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import Cookies from 'universal-cookie';
 
 const query = async (query, context) => {
     const apiUrl = process.browser
@@ -7,6 +8,7 @@ const query = async (query, context) => {
 
     const data = await fetch(apiUrl, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -26,7 +28,7 @@ const query = async (query, context) => {
 
 export const queryQuotes = async (page, context) => {
     return await query(
-        `query { quotes(amount: 10, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`,
+        `query { quotes(amount: 20, page: ${page}, sort: { field: "date", ascending: false }) { text, saidBy, date } }`,
         context
     );
 };
@@ -39,4 +41,17 @@ export const addQuote = async (quote, saidBy) => {
 
 export const queryPersons = async () => {
     return await query(`query { persons { name, id } }`);
+};
+
+export const login = async (username, password) => {
+    const res = await query(
+        `mutation { login ( username: "${username}", password: "${password}" ) }`
+    );
+    if (res?.error) {
+        return false;
+    } else {
+        const cookies = new Cookies();
+        cookies.set('session_id', res.data.login);
+        return true;
+    }
 };

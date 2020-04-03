@@ -9,13 +9,7 @@ import { GlobalStyle } from '../util/globalStyle';
 
 import Container from '../components/Container';
 import Header from '../components/Header';
-
-const Wrapper = styled.div`
-    margin-top: 60px;
-    width: 100%;
-    max-width: 500px;
-    padding: 1rem;
-`;
+import ContentWrapper from '../components/ContentWrapper';
 
 const Settings = () => {
     const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();
@@ -32,7 +26,7 @@ const Settings = () => {
                         rel="stylesheet"></link>
                 </Head>
                 <Header />
-                <Wrapper>
+                <ContentWrapper>
                     <p>Tema</p>
                     <Select
                         placeholder="Velg tema"
@@ -47,7 +41,7 @@ const Settings = () => {
                         uncheckedIcon={false}
                         checkedIcon={false}
                     />
-                </Wrapper>
+                </ContentWrapper>
             </Container>
         </ThemeProvider>
     );
