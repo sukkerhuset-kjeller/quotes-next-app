@@ -8,6 +8,7 @@ type Query {
     ): [Quote]
     person(id: ID!): Person
     persons(name: String): [Person]
+    validSession: Boolean
 }
 
 type Mutation {
