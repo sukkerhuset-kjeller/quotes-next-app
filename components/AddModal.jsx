@@ -3,7 +3,9 @@ import { Creatable } from '../components/Select';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { queryPersons, addQuote } from '../util/api-lib';
+import TextField from './TextField';
 import Button from './Button';
+import Router from 'next/router';
 
 function ReactModalAdapter({ className, modalClassName, ...props }) {
     return (
@@ -51,28 +53,6 @@ const Title = styled.h2`
     margin-top: 0;
 `;
 
-const TextField = styled.input`
-    border: none;
-    width: 100%;
-    font-size: 1rem;
-    color: ${({ theme }) => theme.body.text};
-    background: transparent;
-    border-bottom: 1px solid ${({ theme }) => theme.body.text};
-    margin-bottom: 1rem;
-    padding: 0.5rem 10px;
-    outline: none;
-
-    &:focus {
-        box-shadow: 0px 0px 0px 2px
-            ${({ theme }) => theme.button.primary.background};
-    }
-
-    &::placeholder {
-        color: ${({ theme }) => theme.body.text};
-        font-family: 'Montserrat', sans-serif;
-    }
-`;
-
 const ButtonContainer = styled.div`
     display: flex;
 `;
@@ -101,7 +81,12 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
     const [mounted, setMounted] = useState(true);
 
     useEffect(() => {
-        queryPersons().then((res) => mounted && setPersons(res?.data?.persons));
+        queryPersons().then((res) => {
+            if (res?.errors) {
+                Router.push('/login');
+            }
+            mounted && setPersons(res?.data?.persons || []);
+        });
         return () => setMounted(false);
     }, []);
 
@@ -109,7 +94,6 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
         <StyledModal isOpen={show} onRequestClose={() => setShow(false)}>
             <Title>Legg til ny quote</Title>
             <TextField
-                type="text"
                 placeholder="Quote"
                 onChange={(e) => setQuote(e?.target?.value)}
             />
@@ -135,7 +119,13 @@ const AddModal = ({ show, setShow, quotes, setQuotes }) => {
                     onClick={() => {
                         if (!saidBy || !quote || quote === '') return;
                         addQuote(quote, saidBy).then((res) => {
-                            if (res?.data?.addQuote) {
+                            const addQuote = res?.data?.addQuote;
+                            const errors = res?.errors;
+                            if (errors) {
+                                setLoading(false);
+                                Router.push('/login');
+                            }
+                            if (addQuote) {
                                 setQuotes([
                                     { ...res.data.addQuote },
                                     ...quotes,

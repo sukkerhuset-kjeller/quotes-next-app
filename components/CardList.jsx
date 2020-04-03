@@ -6,6 +6,7 @@ import SimplePullToRefresh from 'react-simple-pull-to-refresh';
 import { queryQuotes } from '../util/api-lib';
 
 import Card from './Card';
+import Router from 'next/router';
 
 const PullToRefresh = styled(SimplePullToRefresh)`
     .lds-ellipsis {
@@ -24,42 +25,47 @@ const CardListWrapper = styled.div`
     overflow: hidden;
 `;
 
-const CardList = ({ quotes, setQuotes, initialPage }) => {
+const CardList = ({ quotes, setQuotes }) => {
     const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(initialPage);
+    const [page, setPage] = useState(0);
     const [hasNextPage, setHasNextPage] = useState(true);
 
     const loadQuotes = debounce(() => {
-        setLoading(true);
-        queryQuotes(page)
-            .then((res) => {
-                setLoading(false);
-                const data = res?.data?.quotes;
+        if (!loading) {
+            setLoading(true);
+            queryQuotes(page).then((res) => {
+                const data = res?.data?.quotes || [];
+                const errors = res?.errors;
+                if (errors) {
+                    setLoading(false);
+                    Router.push('/login');
+                }
                 if (data?.length < 10) {
                     setHasNextPage(false);
                 } else {
                     setPage(page + 1);
                 }
-                setQuotes([...quotes, ...res?.data?.quotes]);
-            })
-            .catch((error) => {
-                setLoading(false);
-                console.error('test', error);
+                setQuotes([...quotes, ...data]);
             });
-    }, 100);
+        }
+    }, 250);
 
     const handleRefresh = () => {
         setHasNextPage(true);
         setPage(0);
-        queryQuotes(0)
-            .then((res) => {
+        if (!loading) {
+            setLoading(true);
+            queryQuotes(0).then((res) => {
                 const data = res?.data?.quotes;
+                const errors = res?.errors;
+                if (errors) {
+                    setLoading(false);
+                    Router.push('/login');
+                }
                 if (data?.length < 10) setHasMore(false);
                 setQuotes([...res?.data?.quotes]);
-            })
-            .catch((error) => {
-                console.error('test', error);
             });
+        }
     };
 
     return (

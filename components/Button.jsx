@@ -21,6 +21,11 @@ const Button = styled.button`
     &:focus {
         box-shadow: 0px 0px 0px 2px #2684ff;
     }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
 `;
 
 export default Button;

@@ -13,8 +13,8 @@ import CardList from '../components/CardList';
 import AddButton from '../components/AddButton';
 import AddModal from '../components/AddModal';
 
-const Home = ({ initialQuotes, initialPage }) => {
-    const [quotes, setQuotes] = useState([...initialQuotes]);
+const Home = () => {
+    const [quotes, setQuotes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();
 
@@ -30,11 +30,7 @@ const Home = ({ initialQuotes, initialPage }) => {
                         rel="stylesheet"></link>
                 </Head>
                 <Header />
-                <CardList
-                    quotes={quotes}
-                    setQuotes={setQuotes}
-                    initialPage={initialPage}
-                />
+                <CardList quotes={quotes} setQuotes={setQuotes} />
                 <AddButton
                     onClick={() => {
                         setShowModal(true);
@@ -50,6 +46,7 @@ const Home = ({ initialQuotes, initialPage }) => {
     );
 };
 
+/* Disabled for now
 Home.getInitialProps = async function(context) {
     const data = await queryQuotes(0, context);
     const quotes = data?.data?.quotes || [];
@@ -57,5 +54,6 @@ Home.getInitialProps = async function(context) {
 
     return { initialQuotes: quotes, initialPage: page };
 };
+*/
 
 export default Home;
