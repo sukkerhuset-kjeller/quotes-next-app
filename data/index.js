@@ -1,4 +1,4 @@
-import { getQuote, getQuotes, addQuote, heartQuote } from './Quote';
+import { getQuote, getQuotes, addQuote, likeQuote } from './Quote';
 import { getPerson, getPersons, addPerson } from './Person';
 import { login, register, logout } from './Auth';
 
@@ -49,11 +49,11 @@ export default () => {
                     context.userSession
                 );
             },
-            heartQuote: (parent, { id }, context) => {
+            likeQuote: (parent, { id, revert }, context) => {
                 if (!context?.userSession) {
                     return Promise.reject('No user session found');
                 }
-                return heartQuote(id, context.userSession);
+                return likeQuote(id, revert, context.userSession);
             },
             login: (parent, { username, password }) =>
                 login(username, password),
