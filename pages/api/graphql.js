@@ -16,14 +16,19 @@ const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     context: async ({ req }) => {
-        let sessionId = req.headers.cookie
-            .split(';')
-            .map((cookie) => cookie.split('='))
-            .filter((cookie) => cookie[0] === 'session_id')[0][1];
+        const cookie = req?.headers?.cookie;
+        let sessionId = req.headers.authentication;
+        if (cookie) {
+            const cookieSuggestions = cookie
+                .split(';')
+                .map((cookie) => cookie.split('='))
+                .filter((cookie) => cookie[0] === 'session_id');
+            if (cookieSuggestions.length > 0) {
+                sessionId = sessionId[0][1];
+            }
+        }
         return {
-            userSession: await getUserSession(
-                req.headers.authentication || sessionId
-            ),
+            userSession: await getUserSession(sessionId),
         };
     },
 });
