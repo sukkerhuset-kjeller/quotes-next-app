@@ -3,14 +3,14 @@ import sanitize from 'sanitize-html';
 import { getDB } from './db';
 
 export default class Quote {
-    constructor({ _id, text, date, hearts, saidBy, tags }, hasHearted) {
+    constructor({ _id, text, date, likes, saidBy, tags }, hasLiked) {
         this.id = _id;
         this.text = text;
         this.date = date + '';
-        this.hearts = hearts?.length || 0;
+        this.likes = likes?.length || 0;
         this.saidBy = saidBy;
         this.tags = tags;
-        this.hasHearted = hasHearted || false;
+        this.hasLiked = hasLiked || false;
     }
 }
 
@@ -31,8 +31,8 @@ export const getQuote = (id, userId) =>
                         }
                         const quote = new Quote(
                             result[0],
-                            result[0].hearts?.filter(
-                                (h) => h + '' === userId + ''
+                            result[0].likes?.filter(
+                                (like) => like + '' === userId + ''
                             ).length > 0
                         );
                         resolve(quote);
@@ -94,7 +94,7 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                                 (qt) =>
                                     new Quote(
                                         qt,
-                                        qt.hearts?.filter(
+                                        qt.likes?.filter(
                                             (h) => h + '' === userId + ''
                                         ).length > 0
                                     )
@@ -125,7 +125,7 @@ export const addQuote = (text, date, saidBy, tags, userId) =>
                         date,
                         saidBy: sanitize(saidBy),
                         tags: tags || [],
-                        hearts: [],
+                        likes: [],
                         date: Number(date) || new Date().getTime(),
                         createdBy: userId == 'id' ? null : userId,
                     })
@@ -135,7 +135,7 @@ export const addQuote = (text, date, saidBy, tags, userId) =>
             .catch(reject);
     });
 
-export const heartQuote = (id, userId) =>
+export const likeQuote = (id, revert, userId) =>
     new Promise((resolve, reject) => {
         getDB()
             .then((db) => {
@@ -144,26 +144,35 @@ export const heartQuote = (id, userId) =>
                         _id: ObjectID(id),
                     })
                     .then((quote) => {
-                        if (
-                            quote?.hearts?.filter(
-                                (heartId) => heartId + '' == userId + ''
-                            ).length > 0
-                        ) {
-                            return reject('Already hearted');
+                        const liked =
+                            quote?.likes?.filter(
+                                (likeId) => likeId + '' == userId + ''
+                            ).length > 0;
+                        if (liked && !revert) {
+                            return reject('Already liked');
+                        } else if (!liked && revert) {
+                            return reject('Already disliked');
                         }
+                        const updateQuery = revert
+                            ? {
+                                  $pull: {
+                                      likes: userId,
+                                  },
+                              }
+                            : {
+                                  $push: {
+                                      likes: userId,
+                                  },
+                              };
                         db.collection('quotes')
                             .update(
                                 {
                                     _id: ObjectID(id),
                                 },
-                                {
-                                    $push: {
-                                        hearts: userId,
-                                    },
-                                }
+                                updateQuery
                             )
                             .then(() => {
-                                resolve(quote.hearts.length + 1);
+                                resolve(quote.likes.length + (revert ? -1 : 1));
                             })
                             .catch(reject);
                     })
