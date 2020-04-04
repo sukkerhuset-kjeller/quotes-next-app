@@ -22,7 +22,9 @@ const apolloServer = new ApolloServer({
             const cookieSuggestions = cookie
                 .split(';')
                 .map((cookie) => cookie.split('='))
-                .filter((cookie) => cookie[0] === 'session_id');
+                .filter(
+                    (cookie) => cookie[0].replace(/ /g, '') === 'session_id'
+                );
             if (cookieSuggestions.length > 0) {
                 sessionId = cookieSuggestions[0][1];
             }
