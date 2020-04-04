@@ -1,6 +1,12 @@
 import { getQuote, getQuotes, addQuote, heartQuote } from './Quote';
 import { getPerson, getPersons, addPerson } from './Person';
-import { login, register, logout } from './Auth';
+import { login, register, logout, roles } from './Auth';
+
+const checkRole = (userRole, role) => {
+    if (!userRole || userRole & (role === 0)) {
+        Promise.reject('Permission denied');
+    }
+};
 
 export default () => {
     return {
@@ -15,6 +21,7 @@ export default () => {
                 if (!context?.userSession) {
                     return Promise.reject('No user session found');
                 }
+                //checkRole(context?.userRole, roles.member);
                 return getQuotes(
                     input,
                     sort,

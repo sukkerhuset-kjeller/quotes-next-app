@@ -2,6 +2,7 @@ import { getDB } from './db';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import getConfig from 'next/config';
+import { ObjectID } from 'mongodb';
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -68,6 +69,7 @@ export const register = (username, password) =>
                                     .insertOne({
                                         username,
                                         password: hash,
+                                        role: roles.member,
                                     })
                                     .then(() => {
                                         resolve(true);
@@ -114,6 +116,27 @@ export const getUserSession = (session) =>
         }
     });
 
+export const getUserRole = (session) =>
+    new Promise((resolve, reject) => {
+        getUserSession(session)
+            .then((userId) => {
+                if (!userId) {
+                    return resolve(0);
+                }
+                getDB()
+                    .then((db) => {
+                        db.collection('users')
+                            .findOne({ _id: ObjectID(userId) })
+                            .then((user) => {
+                                resolve(user.role);
+                            })
+                            .catch(reject);
+                    })
+                    .catch(reject);
+            })
+            .catch(reject);
+    });
+
 export const logout = (userId) =>
     new Promise((resolve, reject) => {
         getDB()
@@ -127,3 +150,8 @@ export const logout = (userId) =>
             })
             .catch(reject);
     });
+
+export const roles = {
+    admin: 1 << 16,
+    member: 1 << 0,
+};

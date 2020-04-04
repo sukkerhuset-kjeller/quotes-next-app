@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
-import { getUserSession } from '../../data/Auth';
+import { getUserSession, getUserRole } from '../../data/Auth';
 import Cors from 'micro-cors';
 import td from '../../data/api.gql';
 import api from '../../data';
@@ -29,6 +29,7 @@ const apolloServer = new ApolloServer({
         }
         return {
             userSession: await getUserSession(sessionId),
+            userRole: await getUserRole(sessionId),
         };
     },
 });
