@@ -3,9 +3,13 @@ import { getPerson, getPersons, addPerson } from './Person';
 import { login, register, logout, roles } from './Auth';
 
 const checkRole = (userRole, role) => {
-    if (!userRole || userRole & (role === 0)) {
-        Promise.reject('Permission denied');
+    console.log(userRole.toString(2));
+    console.log(role.toString(2));
+    console.log(userRole.toString(2).length);
+    if (!userRole || (userRole & role) === 0) {
+        return false;
     }
+    return true;
 };
 
 export default () => {
@@ -21,7 +25,9 @@ export default () => {
                 if (!context?.userSession) {
                     return Promise.reject('No user session found');
                 }
-                //checkRole(context?.userRole, roles.member);
+                if (!checkRole(context?.userRole, roles.member)) {
+                    return Promise.reject('Permission denied');
+                }
                 return getQuotes(
                     input,
                     sort,

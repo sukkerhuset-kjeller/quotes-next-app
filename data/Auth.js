@@ -155,3 +155,5 @@ export const roles = {
     admin: 1 << 16,
     member: 1 << 0,
 };
+
+export const createRole = {};

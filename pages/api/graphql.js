@@ -17,12 +17,12 @@ const apolloServer = new ApolloServer({
     resolvers,
     context: async ({ req }) => {
         const cookie = req?.headers?.cookie;
-        let sessionId = req.headers.authentication;
+        let sessionId = req?.headers?.authentication;
         if (cookie) {
             const cookieSuggestions = cookie
                 .split(';')
                 .map((cookie) => cookie.split('='))
-                .filter((cookie) => cookie[0] === 'session_id');
+                .filter((cookie) => cookie[0] === ' session_id');
             if (cookieSuggestions.length > 0) {
                 sessionId = cookieSuggestions[0][1];
             }
