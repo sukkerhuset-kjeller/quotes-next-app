@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import SimplePullToRefresh from 'react-simple-pull-to-refresh';
-
+import styled from 'styled-components';
 import { queryQuotes } from '../util/api-lib';
-
 import Card from './Card';
-import Router from 'next/router';
 
 const PullToRefresh = styled(SimplePullToRefresh)`
     .lds-ellipsis {
@@ -35,36 +32,24 @@ const CardList = ({ quotes, setQuotes }) => {
             queryQuotes(page).then((res) => {
                 const data = res?.data?.quotes || [];
                 const errors = res?.errors;
-                if (errors) {
-                    setLoading(false);
-                    Router.push('/login');
+                if (!errors) {
+                    setQuotes([...quotes, ...data]);
                 }
                 if (data?.length < 10) {
                     setHasNextPage(false);
                 } else {
                     setPage(page + 1);
                 }
-                setQuotes([...quotes, ...data]);
+                setLoading(false);
             });
         }
     };
 
     const handleRefresh = () => {
-        setHasNextPage(true);
         setPage(0);
-        if (!loading) {
-            setLoading(true);
-            queryQuotes(0).then((res) => {
-                const data = res?.data?.quotes;
-                const errors = res?.errors;
-                if (errors) {
-                    setLoading(false);
-                    Router.push('/login');
-                }
-                if (data?.length < 10) setHasMore(false);
-                setQuotes([...res?.data?.quotes]);
-            });
-        }
+        setHasNextPage(true);
+        setQuotes([]);
+        loadQuotes();
     };
 
     return (

@@ -36,58 +36,58 @@ The GraphQL API is available at `/api/graphql?query`
 
 ```gql
 type Query {
-  quote(id: ID!): Quote
-  quotes(
-    input: QuoteSearchInput
-    sort: SortInput
-    amount: Int!
-    page: Int!
-  ): [Quote]
-  person(id: ID!): Person
-  persons(name: String): [Person]
+    quote(id: ID!): Quote
+    quotes(
+        input: QuoteSearchInput
+        sort: SortInput
+        amount: Int!
+        page: Int!
+    ): [Quote]
+    person(id: ID!): Person
+    persons(name: String): [Person]
 }
 
 type Mutation {
-  addQuote(input: QuoteInput!): Quote
-  heartQuote(id: ID!): Int
-  login(username: String!, password: String!): String
-  register(username: String!, password: String!): Boolean
-  logout: Boolean
+    addQuote(input: QuoteInput!): Quote
+    likeQuote(id: ID!, reverse: Boolean): Int
+    login(username: String!, password: String!): String
+    register(username: String!, password: String!): Boolean
+    logout: Boolean
 }
 
 type Quote {
-  id: ID!
-  text: String!
-  date: String!
-  heats: Int!
-  saidBy: Person!
-  tags: [Person]
-  hasHearted: Boolean!
+    id: ID!
+    text: String!
+    date: String!
+    heats: Int!
+    saidBy: Person!
+    tags: [Person]
+    hasLiked: Boolean!
 }
 
 type Person {
-  id: ID!
-  name: String!
+    id: ID!
+    name: String!
 }
 
 input QuoteInput {
-  text: String!
-  saidBy: ID!
-  date: String
-  tags: [ID]
+    text: String!
+    saidBy: ID!
+    date: String
+    tags: [ID]
 }
 
 input QuoteSearchInput {
-  quote: String
-  person: String
+    quote: String
+    person: String
 }
 
 input SortInput {
-  field: String!
-  ascending: Boolean!
+    field: String!
+    ascending: Boolean!
 }
-
 ```
+
 </details>
 
 <a name="auth"></a>
@@ -158,7 +158,7 @@ This invalidates the current session.
         id
         text
         date
-        hearts
+        likes
         saidBy {
             id
             name
@@ -177,13 +177,10 @@ This invalidates the current session.
 
 ```gql
 mutation {
-    addQuote(input: {
-        text: "<quote text>"
-        saidBy: "<id of person>"
-    }) {
+    addQuote(input: { text: "<quote text>", saidBy: "<id of person>" }) {
         text
         date
-        hearts
+        likes
         saidBy {
             name
         }
@@ -200,14 +197,16 @@ mutation {
 
 ```gql
 mutation {
-    addQuote(input: {
-        text: "<quote text>"
-        saidBy: "<id of person>"
-        date: "<milliseconds since 1970 as string>"
-    }) {
+    addQuote(
+        input: {
+            text: "<quote text>"
+            saidBy: "<id of person>"
+            date: "<milliseconds since 1970 as string>"
+        }
+    ) {
         text
         date
-        hearts
+        likes
         saidBy {
             name
         }

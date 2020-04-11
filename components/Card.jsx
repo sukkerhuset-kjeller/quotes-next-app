@@ -1,13 +1,12 @@
 import {
-    formatDistance,
     differenceInDays,
-    isDate,
     format,
+    formatDistance,
+    isDate,
     isFuture,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled, { css } from 'styled-components';
-
 import Like from '../components/Like';
 
 const cardColors = (colors) => {

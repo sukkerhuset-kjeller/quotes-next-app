@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import AddIcon from '../public/icons/add.svg';
 
 const AddButton = styled.button`

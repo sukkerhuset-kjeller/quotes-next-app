@@ -1,7 +1,7 @@
-import { getDB } from './db';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import getConfig from 'next/config';
+import { getDB } from './db';
 
 const { serverRuntimeConfig } = getConfig();
 

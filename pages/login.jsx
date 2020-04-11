@@ -1,18 +1,15 @@
-import { useState } from 'react';
 import Head from 'next/head';
+import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-
-import { appName } from '../util/vars';
-import { useTheme, getTheme } from '../util/themes';
-import { GlobalStyle } from '../util/globalStyle';
-
-import Header from '../components/Header';
-import TextField from '../components/TextField';
 import Button from '../components/Button';
 import Container from '../components/Container';
 import ContentWrapper from '../components/ContentWrapper';
+import Header from '../components/Header';
+import TextField from '../components/TextField';
 import { login } from '../util/api-lib';
-import Router from 'next/router';
+import { GlobalStyle } from '../util/globalStyle';
+import { getTheme, useTheme } from '../util/themes';
+import { appName } from '../util/vars';
 
 const Login = () => {
     const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();
@@ -32,28 +29,33 @@ const Login = () => {
                 </Head>
                 <Header />
                 <ContentWrapper>
-                    <TextField
-                        placeholder="Brukernavn"
-                        value={username}
-                        onChange={(event) => setUsername(event?.target?.value)}
-                    />
-                    <TextField
-                        type="password"
-                        placeholder="Passord"
-                        value={password}
-                        onChange={(event) => setPassword(event?.target?.value)}
-                    />
-                    <Button
-                        disabled={!username || !password}
-                        onClick={() => {
-                            if (login(username, password)) {
-                                Router.push('/');
-                            } else {
-                                setPassword('');
+                    <form>
+                        <TextField
+                            placeholder="Brukernavn"
+                            value={username}
+                            onChange={(event) =>
+                                setUsername(event?.target?.value)
                             }
-                        }}>
-                        Logg inn
-                    </Button>
+                        />
+                        <TextField
+                            type="password"
+                            placeholder="Passord"
+                            value={password}
+                            onChange={(event) =>
+                                setPassword(event?.target?.value)
+                            }
+                        />
+                        <Button
+                            disabled={!username || !password}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                login(username, password).then(
+                                    (res) => !res && setPassword('')
+                                );
+                            }}>
+                            Logg inn
+                        </Button>
+                    </form>
                 </ContentWrapper>
             </Container>
         </ThemeProvider>
