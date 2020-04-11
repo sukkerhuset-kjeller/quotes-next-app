@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMediaPredicate } from 'react-media-hook';
 import styled from 'styled-components';
-import SettingsIcon from '../public/icons-setting.svg';
+import SettingsIcon from '../public/icons/setting.svg';
 import { appName, shortAppName } from '../util/vars';
 
 const HeaderContainer = styled.div`
@@ -28,7 +28,7 @@ const SettingsLink = styled.a`
 `;
 
 const StyledSettingsIcon = styled(SettingsIcon)`
-    .icons-setting_svg__shape {
+    .setting_svg__shape {
         stroke: ${({ theme }) => theme.header.text};
     }
 `;

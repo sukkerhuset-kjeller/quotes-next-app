@@ -1,4 +1,3 @@
-import debounce from 'lodash.debounce';
 import { useState } from 'react';
 import SimplePullToRefresh from 'react-simple-pull-to-refresh';
 import styled from 'styled-components';
@@ -27,7 +26,7 @@ const CardList = ({ quotes, setQuotes }) => {
     const [page, setPage] = useState(0);
     const [hasNextPage, setHasNextPage] = useState(true);
 
-    const loadQuotes = debounce(() => {
+    const loadQuotes = () => {
         if (!loading) {
             setLoading(true);
             queryQuotes(page).then((res) => {
@@ -44,7 +43,7 @@ const CardList = ({ quotes, setQuotes }) => {
                 setLoading(false);
             });
         }
-    }, 250);
+    };
 
     const handleRefresh = () => {
         setPage(0);
@@ -64,9 +63,7 @@ const CardList = ({ quotes, setQuotes }) => {
                     <Card
                         style={{ zIndex: quotes.length - index }}
                         key={index}
-                        text={entry?.text}
-                        saidBy={entry?.saidBy}
-                        date={entry?.date}
+                        content={entry}
                     />
                 ))}
             </CardListWrapper>
