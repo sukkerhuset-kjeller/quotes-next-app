@@ -1,11 +1,9 @@
 import Link from 'next/link';
-import styled from 'styled-components';
-import { useMediaPredicate } from 'react-media-hook';
 import { useRouter } from 'next/router';
-
-import { appName, shortAppName } from '../util/vars';
-
+import { useMediaPredicate } from 'react-media-hook';
+import styled from 'styled-components';
 import SettingsIcon from '../public/icons-setting.svg';
+import { appName, shortAppName } from '../util/vars';
 
 const HeaderContainer = styled.div`
     position: fixed;

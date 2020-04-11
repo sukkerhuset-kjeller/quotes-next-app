@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import Cookies from 'universal-cookie';
+import { login as authLogin } from './auth';
 
 const query = async (query, context) => {
     const apiUrl = process.browser
@@ -50,8 +50,11 @@ export const login = async (username, password) => {
     if (res?.error) {
         return false;
     } else {
-        const cookies = new Cookies();
-        cookies.set('session_id', res.data.login);
-        return true;
+        if (res.data.login) {
+            authLogin(res.data.login);
+            return true;
+        } else {
+            return false;
+        }
     }
 };
