@@ -5,6 +5,7 @@ import Container from '../components/Container';
 import ContentWrapper from '../components/ContentWrapper';
 import Header from '../components/Header';
 import { Select } from '../components/Select';
+import { withAuthSync } from '../util/auth';
 import { GlobalStyle } from '../util/globalStyle';
 import { getTheme, themes, useTheme } from '../util/themes';
 import { appName } from '../util/vars';
@@ -45,4 +46,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default withAuthSync(Settings);

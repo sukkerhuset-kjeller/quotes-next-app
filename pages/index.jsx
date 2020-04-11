@@ -6,6 +6,7 @@ import AddModal from '../components/AddModal';
 import CardList from '../components/CardList';
 import Container from '../components/Container';
 import Header from '../components/Header';
+import { withAuthSync } from '../util/auth';
 import { GlobalStyle } from '../util/globalStyle';
 import { getTheme, useTheme } from '../util/themes';
 import { appName } from '../util/vars';
@@ -53,4 +54,4 @@ Home.getInitialProps = async function(context) {
 };
 */
 
-export default Home;
+export default withAuthSync(Home);

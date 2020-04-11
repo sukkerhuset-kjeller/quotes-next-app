@@ -22,10 +22,12 @@
         "fibers": "^4.0.2",
         "graphql": "^14.6.0",
         "isomorphic-fetch": "^2.2.1",
+        "js-cookie": "^2.2.1",
         "lodash.debounce": "^4.0.8",
         "micro-cors": "^0.1.1",
         "mongodb": "^3.5.5",
         "next": "^9.3.3",
+        "next-cookies": "^2.0.3",
         "node-sass": "^4.13.1",
         "raw-loader": "^4.0.0",
         "react": "16.13.0",
@@ -37,8 +39,7 @@
         "react-switch": "^5.0.1",
         "sanitize-html": "^1.22.1",
         "sass": "^1.26.3",
-        "styled-components": "^5.0.1",
-        "universal-cookie": "^4.0.3"
+        "styled-components": "^5.0.1"
     },
     "devDependencies": {
         "@svgr/webpack": "^5.3.1",

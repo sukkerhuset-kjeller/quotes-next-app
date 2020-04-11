@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce';
-import Router from 'next/router';
 import { useState } from 'react';
 import SimplePullToRefresh from 'react-simple-pull-to-refresh';
 import styled from 'styled-components';
@@ -34,36 +33,24 @@ const CardList = ({ quotes, setQuotes }) => {
             queryQuotes(page).then((res) => {
                 const data = res?.data?.quotes || [];
                 const errors = res?.errors;
-                if (errors) {
-                    setLoading(false);
-                    Router.push('/login');
+                if (!errors) {
+                    setQuotes([...quotes, ...data]);
                 }
                 if (data?.length < 10) {
                     setHasNextPage(false);
                 } else {
                     setPage(page + 1);
                 }
-                setQuotes([...quotes, ...data]);
+                setLoading(false);
             });
         }
     }, 250);
 
     const handleRefresh = () => {
-        setHasNextPage(true);
         setPage(0);
-        if (!loading) {
-            setLoading(true);
-            queryQuotes(0).then((res) => {
-                const data = res?.data?.quotes;
-                const errors = res?.errors;
-                if (errors) {
-                    setLoading(false);
-                    Router.push('/login');
-                }
-                if (data?.length < 10) setHasMore(false);
-                setQuotes([...res?.data?.quotes]);
-            });
-        }
+        setHasNextPage(true);
+        setQuotes([]);
+        loadQuotes();
     };
 
     return (

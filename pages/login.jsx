@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Router from 'next/router';
 import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import Button from '../components/Button';
@@ -30,28 +29,33 @@ const Login = () => {
                 </Head>
                 <Header />
                 <ContentWrapper>
-                    <TextField
-                        placeholder="Brukernavn"
-                        value={username}
-                        onChange={(event) => setUsername(event?.target?.value)}
-                    />
-                    <TextField
-                        type="password"
-                        placeholder="Passord"
-                        value={password}
-                        onChange={(event) => setPassword(event?.target?.value)}
-                    />
-                    <Button
-                        disabled={!username || !password}
-                        onClick={() => {
-                            if (login(username, password)) {
-                                Router.push('/');
-                            } else {
-                                setPassword('');
+                    <form>
+                        <TextField
+                            placeholder="Brukernavn"
+                            value={username}
+                            onChange={(event) =>
+                                setUsername(event?.target?.value)
                             }
-                        }}>
-                        Logg inn
-                    </Button>
+                        />
+                        <TextField
+                            type="password"
+                            placeholder="Passord"
+                            value={password}
+                            onChange={(event) =>
+                                setPassword(event?.target?.value)
+                            }
+                        />
+                        <Button
+                            disabled={!username || !password}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                login(username, password).then(
+                                    (res) => !res && setPassword('')
+                                );
+                            }}>
+                            Logg inn
+                        </Button>
+                    </form>
                 </ContentWrapper>
             </Container>
         </ThemeProvider>
