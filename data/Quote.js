@@ -95,7 +95,7 @@ export const getQuotes = (input, sort, amount, page, userId) =>
                                     new Quote(
                                         qt,
                                         qt.likes?.filter(
-                                            (h) => h + '' === userId + ''
+                                            (like) => like + '' === userId + ''
                                         ).length > 0
                                     )
                             )

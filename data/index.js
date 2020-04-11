@@ -1,6 +1,6 @@
-import { getQuote, getQuotes, addQuote, likeQuote } from './Quote';
-import { getPerson, getPersons, addPerson } from './Person';
-import { login, register, logout } from './Auth';
+import { login, logout, register } from './Auth';
+import { getPerson, getPersons } from './Person';
+import { addQuote, getQuote, getQuotes, likeQuote } from './Quote';
 
 export default () => {
     return {

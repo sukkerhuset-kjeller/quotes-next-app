@@ -1,15 +1,13 @@
-import styled, { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
-import { Select } from '../components/Select';
 import Switch from 'react-switch';
-
-import { appName } from '../util/vars';
-import { useTheme, getTheme, themes } from '../util/themes';
-import { GlobalStyle } from '../util/globalStyle';
-
+import { ThemeProvider } from 'styled-components';
 import Container from '../components/Container';
-import Header from '../components/Header';
 import ContentWrapper from '../components/ContentWrapper';
+import Header from '../components/Header';
+import { Select } from '../components/Select';
+import { GlobalStyle } from '../util/globalStyle';
+import { getTheme, themes, useTheme } from '../util/themes';
+import { appName } from '../util/vars';
 
 const Settings = () => {
     const [theme, changeTheme, isDarkMode, toggleDarkMode] = useTheme();

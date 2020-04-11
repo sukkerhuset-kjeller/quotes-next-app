@@ -1,4 +1,4 @@
-import { formatDistance, differenceInDays, isDate, format } from 'date-fns';
+import { differenceInDays, format, formatDistance, isDate } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import styled, { css } from 'styled-components';
 

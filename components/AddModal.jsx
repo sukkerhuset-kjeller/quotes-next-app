@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Creatable } from '../components/Select';
-import styled from 'styled-components';
-import ReactModal from 'react-modal';
-import { queryPersons, addQuote } from '../util/api-lib';
-import TextField from './TextField';
-import Button from './Button';
 import Router from 'next/router';
+import { useEffect, useState } from 'react';
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
+import { Creatable } from '../components/Select';
+import { addQuote, queryPersons } from '../util/api-lib';
+import Button from './Button';
+import TextField from './TextField';
 
 function ReactModalAdapter({ className, modalClassName, ...props }) {
     return (

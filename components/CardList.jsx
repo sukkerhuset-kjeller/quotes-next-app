@@ -1,12 +1,10 @@
-import { useState } from 'react';
-import styled from 'styled-components';
 import debounce from 'lodash.debounce';
-import SimplePullToRefresh from 'react-simple-pull-to-refresh';
-
-import { queryQuotes } from '../util/api-lib';
-
-import Card from './Card';
 import Router from 'next/router';
+import { useState } from 'react';
+import SimplePullToRefresh from 'react-simple-pull-to-refresh';
+import styled from 'styled-components';
+import { queryQuotes } from '../util/api-lib';
+import Card from './Card';
 
 const PullToRefresh = styled(SimplePullToRefresh)`
     .lds-ellipsis {

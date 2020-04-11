@@ -1,17 +1,14 @@
-import { useState } from 'react';
 import Head from 'next/head';
+import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-
-import { appName } from '../util/vars';
-import { queryQuotes } from '../util/api-lib';
-import { useTheme, getTheme } from '../util/themes';
-import { GlobalStyle } from '../util/globalStyle';
-
-import Container from '../components/Container';
-import Header from '../components/Header';
-import CardList from '../components/CardList';
 import AddButton from '../components/AddButton';
 import AddModal from '../components/AddModal';
+import CardList from '../components/CardList';
+import Container from '../components/Container';
+import Header from '../components/Header';
+import { GlobalStyle } from '../util/globalStyle';
+import { getTheme, useTheme } from '../util/themes';
+import { appName } from '../util/vars';
 
 const Home = () => {
     const [quotes, setQuotes] = useState([]);
