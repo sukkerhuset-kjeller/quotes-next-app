@@ -1,2 +1,2 @@
-export const appName = 'Shukkerhuset Quotes';
+export const appName = 'Sukkerhuset Quotes';
 export const shortAppName = 'Quotes';
