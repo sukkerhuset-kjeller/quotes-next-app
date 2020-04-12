@@ -1,20 +1,21 @@
-import App from 'next/app';
+import Head from 'next/head';
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from '../util/globalStyle';
+import ThemeProvider from '../util/themes';
+import { appName } from '../util/vars';
 
-const theme = {
-    colors: {
-        primary: '#0070f3',
-    },
+export default ({ Component, pageProps }) => {
+    return (
+        <ThemeProvider>
+            <Head>
+                <title>{appName}</title>
+                <link rel="icon" href="/favicon.ico" />
+                <link
+                    href="https://fonts.googleapis.com/css?family=Montserrat:400,500i,600,700&display=swap"
+                    rel="stylesheet"></link>
+            </Head>
+            <GlobalStyle />
+            <Component {...pageProps} />
+        </ThemeProvider>
+    );
 };
-
-export default class MyApp extends App {
-    render() {
-        const { Component, pageProps } = this.props;
-        return (
-            <ThemeProvider theme={theme}>
-                <Component {...pageProps} />
-            </ThemeProvider>
-        );
-    }
-}

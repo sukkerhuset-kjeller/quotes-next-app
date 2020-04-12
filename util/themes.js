@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-export const useTheme = () => {
+const ThemeContext = createContext();
+export const useTheme = () => useContext(ThemeContext);
+
+export default ({ children }) => {
     const [theme, setTheme] = useState('purple');
     const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -31,7 +35,19 @@ export const useTheme = () => {
         localIsDarkMode && setIsDarkMode(localIsDarkMode === 'true');
     }, []);
 
-    return [theme, changeTheme, isDarkMode, toggleDarkMode];
+    return (
+        <ThemeContext.Provider
+            value={{
+                theme: theme,
+                changeTheme: changeTheme,
+                isDarkMode: isDarkMode,
+                toggleDarkMode: toggleDarkMode,
+            }}>
+            <ThemeProvider theme={getTheme(theme, isDarkMode)}>
+                {children}
+            </ThemeProvider>
+        </ThemeContext.Provider>
+    );
 };
 
 export const themes = [
@@ -41,7 +57,7 @@ export const themes = [
     { value: 'windows', label: 'Windows' },
 ];
 
-export const getTheme = (theme, isDarkMode) => {
+const getTheme = (theme, isDarkMode) => {
     switch (theme) {
         case 'purple':
             return isDarkMode
